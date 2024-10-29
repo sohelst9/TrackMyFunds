@@ -36,6 +36,7 @@
 
 <script setup>
 
+import axios from 'axios';
 import { ref, reactive } from 'vue'
 
 // add trnx data use reactive
@@ -46,9 +47,13 @@ const addData = reactive({
     amount: ''
 });
 
+
 // add trnx submit
 const AddtrnxSubmit = () => {
-    console.log(addData);
+    axios.post('/api/trnx/store', addData)
+    .then((response) => {
+        console.log('Trnx Added')
+    })
     resetData();
 }
 
