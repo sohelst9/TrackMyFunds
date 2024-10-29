@@ -9,8 +9,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="add_trnx.html">Add Transaction</a></li>
+                    <li class="nav-item"><router-link class="nav-link text-white"
+                            :to="{ name: 'home' }">Home</router-link>
+                    </li>
+                    <li class="nav-item"><router-link class="nav-link text-white" :to="{ name: 'trnx.add' }">Add
+                            Transaction</router-link></li>
                     <li class="nav-item"><a class="nav-link text-white" href="trnx_history.html">History</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="statistics.html">Statistics</a></li>
                 </ul>
@@ -28,12 +31,12 @@ const isDarkmood = ref('false');
 const toggletheme = () => {
     isDarkmood.value = !isDarkmood.value
     document.body.classList.toggle("dark-mode", isDarkmood.value);
-    localStorage.setItem('darkMood' , isDarkmood.value)
+    localStorage.setItem('darkMood', isDarkmood.value)
 }
 
 onMounted(() => {
     const themeStore = localStorage.getItem('darkMood');
-    if(themeStore !== null){
+    if (themeStore !== null) {
         isDarkmood.value = themeStore === 'true'
         document.body.classList.toggle("dark-mode", isDarkmood.value);
     }
