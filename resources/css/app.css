@@ -1,1 +1,86 @@
 
+/* Basic styles for light and dark mode */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Page height at least 100% of the viewport height */
+  }
+  
+  .dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  .navbar, .footer {
+    transition: background-color 0.3s;
+  }
+  
+  .dark-mode .navbar, .dark-mode .footer {
+    background-color: #1f1f1f !important;
+  }
+  
+  .card {
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .dark-mode .card {
+    background-color: #1e1e1e;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Responsive table */
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .table th, .table td {
+    padding: 12px;
+  }
+  
+  .table-dark {
+    background-color: #2c2c2c;
+  }
+  
+  .dark-mode .table-dark th, .dark-mode .table-dark td {
+    color: #e0e0e0;
+  }
+  
+  /* Buttons */
+  .btn {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .dark-mode .btn-primary {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+  }
+  
+  /* Custom dark mode styles for specific elements */
+  .card-body, .table th, .table td {
+    transition: color 0.3s, background-color 0.3s;
+  }
+  
+  .dark-mode .card-body, .dark-mode .table th, .dark-mode .table td {
+    color: #e0e0e0;
+    background-color: #333333;
+  }
+  
+  .footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    background-color: #f8f9fa; /* Light mode background */
+    color: #212529; /* Light mode text color */
+    text-align: center;
+    padding: 10px 0; /* Adjust padding as needed */
+    width: 100%; /* Ensures the footer takes full width */
+  }
+  
+  .dark-mode .footer {
+    background-color: #343a40; /* Dark mode background */
+    color: white; /* Dark mode text color */
+  }
+  
+  .dark-mode .card-header{
+    background-color: #343a40; /* Dark mode background */
+    color: white; /* Dark mode text color */
+  }
