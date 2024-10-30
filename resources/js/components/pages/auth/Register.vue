@@ -44,6 +44,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 
 const previewImage = ref(null);
@@ -61,6 +63,8 @@ const profileChange = (e) => {
 }
 
 const errors = reactive({});
+const toast = useToast()
+const router = useRouter()
 
 const RegisterSubmit = async () => {
     Object.keys(errors).forEach(key => delete errors[key]);
@@ -71,7 +75,8 @@ const RegisterSubmit = async () => {
     })
 
     if (response.data.status === 200) {
-        console.log(response.data.status);
+        toast.success('Registration successful, please login')
+        router.push('/');
     } else if (response.data.status === 422) {
         console.log(response.data.status);
         Object.assign(errors, response.data.errors);
