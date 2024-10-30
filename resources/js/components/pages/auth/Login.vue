@@ -21,6 +21,7 @@
     </div>
 </template>
 
+
 <style scoped>
 .container {
     background: #f7f9fc;

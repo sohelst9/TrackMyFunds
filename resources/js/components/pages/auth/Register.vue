@@ -70,11 +70,13 @@ const RegisterSubmit = async () => {
         }
     })
 
-    if (response.data.success) {
-        console.log(response.data.success)
+    if (response.data.status === 200) {
+        console.log(response.data.status);
+    } else if (response.data.status === 422) {
+        console.log(response.data.status);
+        Object.assign(errors, response.data.errors);
     } else {
-        Object.assign(errors, response.data);
-        console.log(errors);
+        console.log("An unexpected error occurred.");
     }
 
 }
