@@ -8,23 +8,29 @@
                     <label for="name">Full Name</label>
                     <input type="text" class="form-control input-custom" v-model="FormData.name" id="name"
                         placeholder="Enter your full name" />
+                    <p v-if="errors.name" class="text-danger">{{ errors.name[0] }}</p>
                 </div>
                 <div class="form-group mb-3">
                     <label for="email">Email</label>
                     <input type="text" class="form-control input-custom" v-model="FormData.email" id="email"
                         placeholder="Enter your email" />
+
+                    <p v-if="errors.email" class="text-danger">{{ errors.email[0] }}</p>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="profile">Profile</label>
                     <input type="file" class="form-control input-custom" @change="profileChange" id="profile" />
                     <img v-if="previewImage" :src="previewImage" alt="" height="100" width="100" class="mt-3">
+
+                    <p v-if="errors.profile" class="text-danger">{{ errors.profile[0] }}</p>
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="password">Password</label>
                     <input type="password" class="form-control input-custom" v-model="FormData.password" id="password"
                         placeholder="Create a password" />
+                    <p v-if="errors.password" class="text-danger">{{ errors.password[0] }}</p>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Register</button>
                 <p class="mt-3 text-center">
@@ -57,25 +63,18 @@ const profileChange = (e) => {
 const errors = reactive({});
 
 const RegisterSubmit = async () => {
-    errors.value = {};
-    try {
-        const response = await axios.post('/api/register', FormData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-
-        // console.log(response);
-
-        if(response.data.success){
-            console.log(response.data.success)
-        }else{
-
+    Object.keys(errors).forEach(key => delete errors[key]);
+    const response = await axios.post('/api/register', FormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
         }
+    })
 
-        
-    } catch (error) {
-        console.error(error)
+    if (response.data.success) {
+        console.log(response.data.success)
+    } else {
+        Object.assign(errors, response.data);
+        console.log(errors);
     }
 
 }
