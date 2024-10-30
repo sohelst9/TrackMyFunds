@@ -11,5 +11,5 @@ import {useRoute} from 'vue-router'
 import {computed} from 'vue'
 
 const route = useRoute();
-const showHeaderFooter = computed(() => !['login'].includes(route.name));
+const showHeaderFooter = computed(() => !['login', 'register'].includes(route.name));
 </script>
