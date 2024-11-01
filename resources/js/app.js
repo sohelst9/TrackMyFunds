@@ -8,6 +8,11 @@ import 'vue-toastification/dist/index.css'
 
 import App from './components/App.vue'
 import router from './router';
+import axios from 'axios'
+
+axios.defaults.baseURL = '/api'
+axios.defaults.withCredentials = true
+
 
 const app = createApp(App);
 app.use(router)

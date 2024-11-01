@@ -68,7 +68,7 @@ const router = useRouter()
 
 const RegisterSubmit = async () => {
     Object.keys(errors).forEach(key => delete errors[key]);
-    const response = await axios.post('/api/register', FormData, {
+    const response = await axios.post('/register', FormData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

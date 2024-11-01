@@ -3,14 +3,18 @@
         <div class="card shadow-lg p-4 login-card">
             <!-- <h2 class="text-center mb-4">Track My Funds - Login</h2> -->
             <h2 class="text-center mb-4">Login</h2>
-            <form>
+            <form @submit.prevent="LoginSubmit">
                 <div class="form-group mb-3">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control input-custom" id="email" autocomplete="off" placeholder="Enter your email" />
+                    <input type="text" class="form-control input-custom" id="email" v-model="InputData.email"
+                        autocomplete="off" placeholder="Enter your email" />
+                    <p v-if="errors.email" class="text-danger mt-2">{{ errors.email[0] }}</p>
                 </div>
                 <div class="form-group mb-4">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control input-custom" id="password" autocomplete="off" placeholder="Enter your password" />
+                    <input type="password" class="form-control input-custom" id="password" v-model="InputData.password"
+                        autocomplete="off" placeholder="Enter your password" />
+                    <p v-if="errors.password" class="text-danger mt-2">{{ errors.password[0] }}</p>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 <p class="mt-3 text-center">
@@ -20,6 +24,44 @@
         </div>
     </div>
 </template>
+
+<script setup>
+
+import axios from 'axios'
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
+const router = useRouter()
+
+const InputData = reactive({
+    email: '',
+    password: ''
+})
+
+const errors = reactive({})
+
+const LoginSubmit = async () => {
+
+    Object.keys(errors).forEach(key => delete errors[key])
+
+    const response = await axios.post('/login', InputData)
+
+    if (response.data.status == 200) {
+        localStorage.setItem('token', response.data.token)
+        toast.success(response.data.success)
+        router.push({ name: 'home' })
+
+    } else if (response.data.status == 401) {
+        toast.error(response.data.error)
+
+    } else if (response.data.status == 422) {
+        Object.assign(errors, response.data.errors)
+    }
+}
+
+</script>
 
 
 <style scoped>
