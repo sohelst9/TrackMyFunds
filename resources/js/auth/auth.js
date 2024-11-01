@@ -12,7 +12,6 @@ const stateAuth = reactive({
 });
 
 // set token and update authentication function
-
 const setToken = (token) => {
     stateAuth.errors = {};
     localStorage.setItem("token", token);
@@ -51,10 +50,23 @@ const logout = async () => {
 };
 
 //---check auth ----
-const checkAuth = () => {
+const checkAuth = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-        setToken(token);
+        try {
+            setToken(token);
+            const response = await axios.get("/user");
+            stateAuth.user = response.data.user;
+            stateAuth.isAuthenticated = true;
+            // console.log(response.data.user);
+        } catch (error) {
+            console.error("Failed to fetch user data:", error);
+            stateAuth.isAuthenticated = false;
+            stateAuth.user = null;
+        }
+    } else {
+        stateAuth.isAuthenticated = false;
+        stateAuth.user = null;
     }
 };
 
@@ -63,6 +75,6 @@ export function useAuth() {
         stateAuth,
         login,
         checkAuth,
-        logout
+        logout,
     };
 }
