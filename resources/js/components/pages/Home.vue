@@ -1,6 +1,10 @@
+
 <template>
     <!-- Home Page Content -->
     <div class="container my-5">
+
+        <UserSection />
+
         <div class="row g-4">
             <div class="col-lg-4">
                 <div class="card text-center shadow">
@@ -111,3 +115,7 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import UserSection from './Dashboard/UserSection.vue'
+</script>

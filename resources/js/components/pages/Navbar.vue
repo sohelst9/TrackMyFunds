@@ -10,12 +10,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><router-link class="nav-link text-white"
-                            :to="{ name: 'home' }">Home</router-link>
+                            :to="{ name: 'home' }">Dashboard</router-link>
                     </li>
                     <li class="nav-item"><router-link class="nav-link text-white" :to="{ name: 'trnx.add' }">Add
                             Transaction</router-link></li>
                     <li class="nav-item"><a class="nav-link text-white" href="trnx_history.html">History</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="statistics.html">Statistics</a></li>
+                    <li class="nav-item"><button class="nav-link text-danger" @click="Logout">Logout</button></li>
                 </ul>
                 <button @click="toggletheme" id="toggleTheme" class="btn btn-outline-light ms-3">
                     {{ isDarkmood ? 'Light Mood' : 'Dark Mode' }}
@@ -27,6 +28,16 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useAuth } from '../../auth/auth';
+
+const { logout } = useAuth()
+
+//---Logout
+const Logout = async () => {
+    await logout()
+}
+
+//-chagne theme dark and white
 const isDarkmood = ref('false');
 const toggletheme = () => {
     isDarkmood.value = !isDarkmood.value

@@ -25,6 +25,7 @@ const login = async (email, password) => {
     const response = await axios.post("/login", { email, password });
     if (response.data.status == 200) {
         setToken(response.data.token);
+        stateAuth.user = response.data.user;
         toast.success(response.data.success);
         router.push({ name: "home" });
     } else if (response.data.status == 401) {
@@ -34,12 +35,27 @@ const login = async (email, password) => {
     }
 };
 
+//--logout
+const logout = async () => {
+    try {
+        const response = await axios.post("/logout");
+        stateAuth.isAuthenticated = false;
+        stateAuth.user = null;
+        localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
+        toast.success(response.data.message);
+        router.push({ name: "login" });
+    } catch (error) {
+        toast.success("Logout failed");
+    }
+};
+
 //---check auth ----
 const checkAuth = () => {
     const token = localStorage.getItem("token");
     if (token) {
         setToken(token);
-    }   
+    }
 };
 
 export function useAuth() {
@@ -47,5 +63,6 @@ export function useAuth() {
         stateAuth,
         login,
         checkAuth,
+        logout
     };
 }
