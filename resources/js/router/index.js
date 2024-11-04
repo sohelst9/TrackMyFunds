@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../components/pages/Home.vue";
 import About from "../components/pages/About.vue";
 import Notfound from "../components/pages/Notfound.vue";
 import Add from "../components/pages/trnx/Add.vue";
 import Login from "../components/pages/auth/Login.vue";
 import Register from "../components/pages/auth/Register.vue";
 import { useAuth } from "../auth/auth";
+import Home from "../components/pages/Dashboard/Home.vue";
 
 const routes = [
     {

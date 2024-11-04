@@ -61,42 +61,4 @@ const LoginSubmit = async () => {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-
-.dark-mode .container {
-    background: #1a1a1a;
-    color: #f7f9fc;
-}
-
-.dark-mode .login-card {
-    background: #2a2a2a;
-    border: 1px solid #444;
-}
-
-.dark-mode .input-custom {
-    background: #333;
-    color: #f7f9fc;
-    border: 1px solid #444;
-}
-
-.dark-mode .input-custom::placeholder {
-    color: #888;
-    /* Dark mode placeholder color */
-}
-
-.dark-mode h2,
-p,
-label {
-    color: #f7f9fc;
-}
-
-
-.dark-mode .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.dark-mode .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
 </style>
