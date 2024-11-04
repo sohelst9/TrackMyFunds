@@ -2,13 +2,14 @@
     <Sidebar v-if="showHeaderFooter" />
     <Navbar v-if="showHeaderFooter" />
     <!-- Main Content -->
-    <div class="main-content">
+    <div v-if="showHeaderFooter" class="main-content">
         <div class="container mt-4">
             <router-view />
         </div>
     </div>
+    <router-view v-else />
 
-    <Footer v-if="showHeaderFooter" />
+    <!-- <Footer v-if="showHeaderFooter" /> -->
 </template>
 
 <script setup>

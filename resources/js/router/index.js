@@ -6,8 +6,12 @@ import Login from "../components/pages/auth/Login.vue";
 import Register from "../components/pages/auth/Register.vue";
 import { useAuth } from "../auth/auth";
 import Home from "../components/pages/Dashboard/Home.vue";
+import UserSection from "../components/pages/Dashboard/UserSection.vue";
+import ViewProduct from "../components/pages/Dashboard/product/ViewProduct.vue";
+import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
 
 const routes = [
+    //---dashboard routes -----
     {
         path: "/",
         name: "login",
@@ -21,12 +25,35 @@ const routes = [
         component: Register,
         meta: { requiresGuest: true },
     },
+
     {
         path: "/dashboard",
         name: "home",
         component: Home,
         meta: { requiresAuth: true },
     },
+
+    {
+        path: "/admin/user",
+        name: "admin_user",
+        component: UserSection,
+        meta: { requiresAuth: true },
+    },
+
+    {
+        path: "/admin/products",
+        name: "admin_products",
+        component: ViewProduct,
+        meta: { requiresAuth: true },
+    },
+
+    {
+        path: "/admin/product/add",
+        name: "admin_product_add",
+        component: Addproduct,
+        meta: { requiresAuth: true },
+    },
+
     {
         path: "/about",
         name: "about",
@@ -39,6 +66,7 @@ const routes = [
         component: Add,
         meta: { requiresAuth: true },
     },
+
     { path: "/:pathMatch(.*)*", name: "notfound", component: Notfound },
 ];
 

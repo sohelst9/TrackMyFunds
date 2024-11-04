@@ -12,9 +12,8 @@
                                 <img :src="profileImage" alt="User Avatar"
                                     class="user_avatar rounded-circle shadow-sm" />
                             </div>
-                            <h5 class="user_card-title">{{ user.name }}</h5>
+                            <p class="user_card-title">Name : {{ user.name }}</p>
                             <p class="user_card-text"><strong>Email:</strong> {{ user.email }}</p>
-                            <p class="user_card-text"><strong>Role:</strong> Administrator</p>
                         </div>
                         <div class="user_buttons text-end">
                             <div class="d-grid gap-2">
@@ -49,7 +48,7 @@ const profileImage = computed(() => {
 //-- check auth function call 
 onMounted(async () => {
     await checkAuth();
-    console.log(user.value)
+    // console.log(user.value)
 });
 
 

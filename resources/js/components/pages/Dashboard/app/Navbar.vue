@@ -7,18 +7,27 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Profile link goes to the right side -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name: 'admin_user' }"><fontawesome-icon icon="user" />
+                            Profile</router-link>
+                    </li>
+                </ul>
+                <!-- Logout button stays on the left side -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user"></i> Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link" @click="Logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                        <button class="nav-link" @click="Logout"><fontawesome-icon icon="sign-out-alt" />
+                            Logout</button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
+
+
 </template>
 
 <script setup>

@@ -20,7 +20,7 @@ body {
   z-index: 100;
 }
 
-.sidebar .item {
+.sidebar a {
   color: white;
   text-decoration: none;
   padding: 15px 20px;
@@ -29,25 +29,24 @@ body {
   transition: background-color 0.3s;
 }
 
-.sidebar .item:hover {
+.sidebar a:hover {
   background-color: #343a40;
   border-left: 5px solid #007bff;
 }
 
-.sidebar .item .icon  {
+.sidebar a i {
   margin-right: 10px;
 }
 
 /* Navbar Styling */
 .navbar {
-  margin-left: 250px;
-  width: calc(100% - 250px);
+  margin-left: 250px; /* Adjusting for sidebar width */
+  width: calc(100% - 250px); /* Full width minus sidebar */
   background-color: #007bff;
   color: white;
   z-index: 99;
-  position: fixed;
+  position: fixed; /* Keep navbar fixed */
   top: 0;
-  width: 100%;
 }
 
 .navbar-brand {
@@ -67,6 +66,7 @@ body {
 .navbar-nav .nav-link:hover {
   color: #dfe6e9;
 }
+
 
 /* Main Content Styling */
 .main-content {
@@ -116,53 +116,49 @@ table .badge {
 
 /* Custom Form Styles */
 .custom-card {
-  background-color: #fff; /* সাদা ব্যাকগ্রাউন্ড */
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: auto;
+  background-color: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+  padding: 20px !important;
+  margin: auto !important;
 }
 
-/* .custom-card-header {
-  background: linear-gradient(90deg, #007bff, #6610f2);
-} */
-
 .custom-btn-light {
-  background-color: #0b8835;
-  color: #f8f8f8;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  background-color: #0b8835 !important;
+  color: #f8f8f8 !important;
+  border-radius: 5px !important;
+  transition: background-color 0.3s !important;
 }
 
 .custom-btn-light:hover {
-  background-color: #e2e6ea;
+  background-color: #e2e6ea !important;
 }
 
 .custom-btn-gradient {
-  background: linear-gradient(90deg, #ff416c, #ff4b2b);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  transition: background 0.3s;
+  background: linear-gradient(90deg, #ff416c, #ff4b2b) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 5px !important;
+  transition: background 0.3s !important;
 }
 
 .custom-btn-gradient:hover {
-  background: linear-gradient(90deg, #ff4b2b, #ff416c);
+  background: linear-gradient(90deg, #ff4b2b, #ff416c) !important;
 }
 
 .custom-input, .custom-select, .custom-textarea {
-  border-radius: 5px;
-  border: 2px solid #ced4da;
-  transition: border-color 0.3s;
+  border-radius: 5px !important;
+  border: 2px solid #ced4da !important;
+  transition: border-color 0.3s !important;
 }
 
 .custom-input:focus, .custom-select:focus, .custom-textarea:focus {
-  border-color: #ff416c;
-  box-shadow: none;
+  border-color: #ff416c !important;
+  box-shadow: none !important;
 }
 
 .custom-textarea {
-  resize: none;
+  resize: none !important;
 }
 
 #customImagePreview {
@@ -170,10 +166,6 @@ table .badge {
   max-height: 200px;
   border: 2px dashed #ff416c;
   margin-top: 10px;
-}
-
-#imagePreviewContainer {
-  display: none; /* Initially hidden */
 }
 
 /* Media Queries for Mobile */
@@ -184,7 +176,7 @@ table .badge {
       position: relative;
   }
 
-  .sidebar .item {
+  .sidebar a {
       text-align: center;
       padding: 10px;
   }
@@ -208,37 +200,5 @@ table .badge {
 
   .navbar-toggler {
       display: block;
-  }
-}
-
-
-
-
-/* custom errors alerts */
-
-.custom-alert {
-  background-color: #f8d7da; /* লাল ব্যাকগ্রাউন্ড */
-  color: #721c24; /* লাল টেক্সট */
-  border: 1px solid #f5c6cb; /* হালকা লাল বর্ডার */
-  border-radius: 5px; /* গোলাকার বর্ডার */
-  padding: 15px;
-  margin-bottom: 20px;
-  font-family: 'Arial', sans-serif;
-}
-
-.custom-alert ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.custom-alert li {
-  padding: 5px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .custom-alert {
-      padding: 10px;
-      font-size: 14px;
   }
 }

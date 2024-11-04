@@ -1,9 +1,9 @@
 <template>
     <!-- Sidebar -->
     <nav class="sidebar">
-        <h3 class="text-center mb-4">Game Dashboard</h3>
+        <h3 class="text-center mb-4">Dashboard</h3>
         <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="home" /> Home </router-link>
-        <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="gamepad" /> Games
+        <router-link :to="{ name: 'admin_products' }" class="item"><fontawesome-icon class="icon" icon="gamepad" /> Products
         </router-link>
         <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="chart-line" /> Analytics
         </router-link>
