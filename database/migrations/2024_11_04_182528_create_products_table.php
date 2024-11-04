@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('category');
             $table->decimal('price', 12, 2);
             $table->string('quantity');
+            $table->string('stock_quantity');
             $table->longText('description')->nullable();
             $table->string('size')->nullable();
             $table->string('weight')->nullable();

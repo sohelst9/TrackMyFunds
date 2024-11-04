@@ -9,8 +9,11 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
     //--product
-    Route::post('/product', [ProductController::class, 'index']);
+    Route::post('/product', [ProductController::class, 'store']);
+    Route::get('/products', [ProductController::class, 'index']);
 });
+
+
 
 
 Route::post('/register', [AuthController::class, 'register']);
