@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -15,10 +16,10 @@ class ProductController extends Controller
     //--index
     public function index()
     {
-        // $products = Product::latest()->paginate(5);
-        $products = Product::latest()
-            ->where('created_at', '>=', Carbon::now()->addDays(2))
-            ->paginate(5);
+        $products = Product::latest()->paginate(5);
+        // $products = Product::latest()
+        //     ->where('created_at', '>=', Carbon::now()->addDays(2))
+        //     ->paginate(5);
         return ProductResource::collection($products);
     }
     //--store
@@ -111,6 +112,29 @@ class ProductController extends Controller
             $product->name = $request->name ?? $product->name;
             $product->slug = Str::slug($request->name) ?? $product->slug;
             $product->category = $request->category ?? $product->category;
+            $product->price = $request->price ?? $product->price;
+            $product->stock_quantity = $request->quantity ?? $product->stock_quantity;
+            $product->description = $request->description ?? $product->description;
+            $product->size = $request->size ?? $product->size;
+            $product->weight = $request->weight ?? $product->weight;
+            $product->packageType = $request->packageType ?? $product->packageType;
+            $product->meta_title = $request->meta_title ?? $product->meta_title;
+            $product->meta_description = $request->meta_description ?? $product->meta_description;
+            $product->isFeatured = $request->isFeatured ?? $product->isFeatured;
+
+            $path = null;
+            if ($request->hasFile('product_image')) {
+                //--old image delete
+                $old_image = $product->product_image;
+                if($old_image && file_exists(public_path($old_image))){
+                    File::delete(public_path($old_image));
+                }
+                $product_image = $request->file('product_image');
+                $newImageName = uniqid() . 'update_' . $slug . '.' . $product_image->getClientOriginalExtension();
+                $path = 'admin/product/' . $newImageName;
+                $product_image->move(public_path('admin/product'), $newImageName);
+                $product->product_image = $path;
+            }
 
             if ($product->save()) {
                 return response()->json([
@@ -124,7 +148,7 @@ class ProductController extends Controller
                     'message' => 'Failed to Updated Product'
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 'status' => 404,
                 'message' => "This product is not found in our records.",

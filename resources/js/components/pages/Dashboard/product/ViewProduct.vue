@@ -40,7 +40,7 @@
                      <td>{{ product.stock_quantity }}</td>
 
                      <td>
-                        <a class="btn btn-sm btn-primary me-2">Edit</a>
+                        <router-link class="btn btn-sm btn-primary me-2" :to="{name: 'product_edit', params: {slug: product.slug } }">Edit</router-link>
                         <a class="btn btn-sm btn-danger">Delete</a>
                      </td>
                   </tr>
@@ -105,7 +105,7 @@ const getProducts = async () => {
       error.value = "No Data Found";
    }
 
-   console.log(response.data.data)
+   // console.log(response.data.data)
 }
 
 

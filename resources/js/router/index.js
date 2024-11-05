@@ -9,6 +9,7 @@ import Home from "../components/pages/Dashboard/Home.vue";
 import UserSection from "../components/pages/Dashboard/UserSection.vue";
 import ViewProduct from "../components/pages/Dashboard/product/ViewProduct.vue";
 import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
+import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
 
 const routes = [
     //---dashboard routes -----
@@ -40,6 +41,7 @@ const routes = [
         meta: { requiresAuth: true },
     },
 
+    //---product route
     {
         path: "/admin/products",
         name: "admin_products",
@@ -53,6 +55,16 @@ const routes = [
         component: Addproduct,
         meta: { requiresAuth: true },
     },
+
+    {
+        path: "/product/edit/:slug",
+        name: "product_edit",
+        component: EditProduct,
+        props: true,
+        meta: { requiresAuth: true },
+    },
+
+    //---product route end
 
     {
         path: "/about",
