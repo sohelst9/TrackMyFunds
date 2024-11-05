@@ -88,4 +88,47 @@ class ProductController extends Controller
             }
         }
     }
+
+    //--edit
+    public function edit($slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        if ($product) {
+            return new ProductResource($product);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "This product is not found in our records.",
+            ]);
+        }
+    }
+
+    //--update
+    public function update(Request $request, $slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        if ($product) {
+            $product->name = $request->name ?? $product->name;
+            $product->slug = Str::slug($request->name) ?? $product->slug;
+            $product->category = $request->category ?? $product->category;
+
+            if ($product->save()) {
+                return response()->json([
+                    'status' => 200,
+                    'product' => $product,
+                    'message' => 'Product Updated Successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Failed to Updated Product'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => "This product is not found in our records.",
+            ]);
+        }
+    }
 }

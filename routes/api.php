@@ -5,13 +5,16 @@ use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->group(function(){
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
     //--product
     Route::post('/product', [ProductController::class, 'store']);
     Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/product/{slug}', [ProductController::class, 'edit']);
+    Route::patch('/product/{slug}', [ProductController::class, 'update']);
 });
+
 
 
 
