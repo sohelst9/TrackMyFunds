@@ -188,11 +188,15 @@ onMounted(() => {
 
 //---update code 
 
+
+//--- handle image
 const GetImage = (event) => {
     const file = event.target.files[0];
     ProductData.value.product_image = file;
     PreviewImage.value = URL.createObjectURL(file);
 }
+
+//-- handle form submit 
 const ProductFormData = async () => {
     try {
         Object.keys(errors).forEach(key => delete errors[key]);
@@ -228,7 +232,7 @@ const ProductFormData = async () => {
         }
 
     } catch (error) {
-        console.error("Error updating product data:", error);
+        toast.error("Something went wrong. Please try again later.");
     }
 }
 </script>

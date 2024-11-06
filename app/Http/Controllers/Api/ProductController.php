@@ -129,7 +129,7 @@ class ProductController extends Controller
             ]);
         } else {
             $product = Product::where('slug', $slug)->first();
-            
+
             if ($product) {
                 $product->name = $request->name ?? $product->name;
                 if ($request->has('name')) {
@@ -178,6 +178,28 @@ class ProductController extends Controller
                     'message' => "This product is not found in our records.",
                 ]);
             }
+        }
+    }
+
+    //--delete---
+    public function delete($slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        if ($product) {
+            $old_image = $product->product_image;
+            if ($old_image && file_exists(public_path($old_image))) {
+                File::delete(public_path(($old_image)));
+            }
+            $product->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Product Deleted Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "This product is not found in our records.",
+            ]);
         }
     }
 }

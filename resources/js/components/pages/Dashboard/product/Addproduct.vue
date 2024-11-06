@@ -182,7 +182,7 @@ const ClearError = (field) => {
 
 const ProductFormData = async () => {
     try {
-        ProductData.isFeatured = ProductData.isFeatured ? 1 : 0;
+        ProductData.isFeatured = ProductData.isFeatured ? 1 : 0; //-- is featured set boolean
         // console.log(ProductData.isFeatured)
         Object.keys(errors).forEach(key => delete errors[key]);
         const response = await axios.post('/product', ProductData, {

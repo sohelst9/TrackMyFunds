@@ -46,10 +46,10 @@ const profileImage = computed(() => {
 })
 
 //-- check auth function call 
-onMounted(async () => {
-    await checkAuth();
-    // console.log(user.value)
-});
+// onMounted(async () => {
+//     await checkAuth();
+//     // console.log(user.value)
+// });
 
 
 //--cal logout function

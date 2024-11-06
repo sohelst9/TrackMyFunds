@@ -42,8 +42,9 @@
                      <td>{{ product.stock_quantity }}</td>
 
                      <td>
-                        <router-link class="btn btn-sm btn-primary me-2" :to="{name: 'product_edit', params: {slug: product.slug } }">Edit</router-link>
-                        <a class="btn btn-sm btn-danger">Delete</a>
+                        <router-link class="btn btn-sm btn-primary me-2"
+                           :to="{ name: 'product_edit', params: { slug: product.slug } }">Edit</router-link>
+                        <a class="btn btn-sm btn-danger" @click="deleteProduct(product.slug)">Delete</a>
                      </td>
                   </tr>
                </tbody>
@@ -56,12 +57,14 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useToast } from 'vue-toastification';
 
 
 const Products = ref([]);
 const loading = ref(true);
 const progressBarWidth = ref('0%');
 const error = ref(null);
+const toast = useToast()
 
 const categories = {
    1: "Organic Fruits",
@@ -99,15 +102,36 @@ const startLoading = () => {
 };
 
 const getProducts = async () => {
-   const response = await axios.get('/products');
-   if (response.data.data.length > 0) {
-      Products.value = response.data.data;
-      loading.value = false
-   } else {
-      error.value = "No Data Found";
+   try {
+      const response = await axios.get('/products');
+      if (response.data.data.length > 0) {
+         Products.value = response.data.data;
+         loading.value = false
+      } else {
+         error.value = "No Data Found";
+      }
+   } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
    }
 
    // console.log(response.data.data)
+}
+
+//---deleteProduct ---
+const deleteProduct = async (slug) => {
+   try {
+      const response = await axios.delete(`/product/delete/${slug}`);
+      if (response.status === 200) {
+         toast.success(response.data.message);
+         getProducts();
+         console.log(response.data.message)
+      } else if (response.data.status === 404) {
+         toast.error(response.data.message)
+      }
+   } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+   }
+
 }
 
 
@@ -127,21 +151,22 @@ onMounted(() => {
 }
 
 .loading-container {
-  width: 100%;
-  height: 5px;
-  background-color: #f3f3f3;
-  position: relative;
+   width: 100%;
+   height: 5px;
+   background-color: #f3f3f3;
+   position: relative;
 }
 
 .progress-bar {
-  height: 100%;
-  background-color: #4caf50;
-  transition: width 0.1s ease-in-out;
+   height: 100%;
+   background-color: #4caf50;
+   transition: width 0.1s ease-in-out;
 }
-.data_not_found_mag{
+
+.data_not_found_mag {
    font-size: 25px;
    font-weight: 700;
    font-family: 'Courier New', Courier, monospace;
-   
+
 }
 </style>
