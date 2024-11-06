@@ -31,7 +31,7 @@ class ProductController extends Controller
             'category' => 'required|string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'size' => 'nullable|string',
             'weight' => 'nullable|string',
             'packageType' => 'nullable|string',
@@ -107,55 +107,77 @@ class ProductController extends Controller
     //--update
     public function update(Request $request, $slug)
     {
-        $product = Product::where('slug', $slug)->first();
         // return $request->all();
-        if ($product) {
-            $product->name = $request->name ?? $product->name;
-            if ($request->has('name')) {
-                $product->slug = Str::slug($request->name);
-            }
-            $product->category = $request->category ?? $product->category;
-            $product->price = $request->price ?? $product->price;
-            $product->stock_quantity = $request->quantity ?? $product->stock_quantity;
-            $product->description = $request->description ?? $product->description;
-            $product->size = $request->size ?? $product->size;
-            $product->weight = $request->weight ?? $product->weight;
-            $product->packageType = $request->packageType ?? $product->packageType;
-            $product->meta_title = $request->meta_title ?? $product->meta_title;
-            $product->meta_description = $request->meta_description ?? $product->meta_description;
-            $product->isFeatured = $request->isFeatured ?? $product->isFeatured;
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'required|string',
+            'size' => 'nullable|string',
+            'weight' => 'nullable|string',
+            'packageType' => 'nullable|string',
+            'product_image' => 'nullable|image|mimes:jpeg,webp,png,jpg,gif,svg|max:2048',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string',
+        ]);
 
-            $path = null;
-            if ($request->hasFile('product_image')) {
-                //--old image delete
-                $old_image = $product->product_image;
-                if($old_image && file_exists(public_path($old_image))){
-                    File::delete(public_path($old_image));
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ]);
+        } else {
+            $product = Product::where('slug', $slug)->first();
+            
+            if ($product) {
+                $product->name = $request->name ?? $product->name;
+                if ($request->has('name')) {
+                    $product->slug = Str::slug($request->name);
                 }
-                $product_image = $request->file('product_image');
-                $newImageName = uniqid() . 'update_' . $slug . '.' . $product_image->getClientOriginalExtension();
-                $path = 'admin/product/' . $newImageName;
-                $product_image->move(public_path('admin/product'), $newImageName);
-                $product->product_image = $path;
-            }
+                $product->category = $request->category ?? $product->category;
+                $product->price = $request->price ?? $product->price;
+                $product->stock_quantity = $request->quantity ?? $product->stock_quantity;
+                $product->description = $request->description ?? $product->description;
+                $product->size = $request->size ?? $product->size;
+                $product->weight = $request->weight ?? $product->weight;
+                $product->packageType = $request->packageType ?? $product->packageType;
+                $product->meta_title = $request->meta_title ?? $product->meta_title;
+                $product->meta_description = $request->meta_description ?? $product->meta_description;
+                $product->isFeatured = $request->isFeatured ?? $product->isFeatured;
 
-            if ($product->save()) {
-                return response()->json([
-                    'status' => 200,
-                    'product' => $product,
-                    'message' => 'Product Updated Successfully',
-                ]);
+                $path = null;
+                if ($request->hasFile('product_image')) {
+                    //--old image delete
+                    $old_image = $product->product_image;
+                    if ($old_image && file_exists(public_path($old_image))) {
+                        File::delete(public_path($old_image));
+                    }
+                    $product_image = $request->file('product_image');
+                    $newImageName = uniqid() . 'update_' . $slug . '.' . $product_image->getClientOriginalExtension();
+                    $path = 'admin/product/' . $newImageName;
+                    $product_image->move(public_path('admin/product'), $newImageName);
+                    $product->product_image = $path;
+                }
+
+                if ($product->save()) {
+                    return response()->json([
+                        'status' => 200,
+                        'product' => $product,
+                        'message' => 'Product Updated Successfully',
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 500,
+                        'message' => 'Failed to Updated Product'
+                    ]);
+                }
             } else {
                 return response()->json([
-                    'status' => 500,
-                    'message' => 'Failed to Updated Product'
+                    'status' => 404,
+                    'message' => "This product is not found in our records.",
                 ]);
             }
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => "This product is not found in our records.",
-            ]);
         }
     }
 }

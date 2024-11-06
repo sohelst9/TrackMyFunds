@@ -15,7 +15,7 @@
                                 <label for="p_name" class="form-label">Product Name</label>
                                 <input type="text" class="form-control custom-input" v-model="ProductData.name"
                                     id="p_name">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.name">{{ errors.name[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.name">{{ errors.name[0] }}</p>
                             </div>
 
                             <div class="mb-3">
@@ -31,8 +31,8 @@
                                     <option value="7">Organic Snacks</option>
                                     <option value="8">Organic Beauty & Personal Care</option>
                                 </select>
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.category">{{ errors.category[0]
-                                    }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.category">{{ errors.category[0]
+                                    }}</p>
                             </div>
 
                             <div class="mb-3">
@@ -40,7 +40,7 @@
                                 <input type="number" class="form-control custom-input" id="productPrice"
                                     name="productPrice" placeholder="Enter product price" step="0.01"
                                     v-model="ProductData.price">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.price">{{ errors.price[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.price">{{ errors.price[0] }}</p>
                             </div>
 
                             <div class="mb-3">
@@ -48,16 +48,16 @@
                                 <input type="number" class="form-control custom-input" id="productStock"
                                     name="productStock" placeholder="Enter stock quantity"
                                     v-model="ProductData.quantity">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.quantity">{{ errors.quantity[0]
-                                    }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.quantity">{{ errors.quantity[0]
+                                    }}</p>
                             </div>
 
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <textarea class="form-control custom-textarea" id="description"
                                     v-model="ProductData.description" rows="4"></textarea>
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.description">{{
-                                    errors.description[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.description">{{
+                                    errors.description[0] }}</p>
                             </div>
                         </div>
 
@@ -67,15 +67,15 @@
                                 <label for="productSize" class="form-label">Product Size</label>
                                 <input type="text" class="form-control custom-input" id="productSize"
                                     v-model="ProductData.size" placeholder="Enter size (e.g., 250g, 1L)">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.size">{{ errors.size[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.size">{{ errors.size[0] }}</p>
                             </div>
 
                             <div class="mb-3">
                                 <label for="productWeight" class="form-label">Product Weight</label>
                                 <input type="text" class="form-control custom-input" id="productWeight"
                                     v-model="ProductData.weight" placeholder="Enter weight (e.g., 500g)">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.weight">{{ errors.weight[0] }}
-                                </p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.weight">{{ errors.weight[0] }}
+                                </p>
                             </div>
 
                             <div class="mb-3">
@@ -89,16 +89,16 @@
                                     <option value="jar">Jar</option>
                                     <option value="bulk">Bulk</option>
                                 </select>
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.packageType">{{
-                                    errors.packageType[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.packageType">{{
+                                    errors.packageType[0] }}</p>
                             </div>
 
                             <div class="mb-3">
                                 <label for="gameImage" class="form-label">Upload Game Image</label>
                                 <input type="file" class="form-control custom-input" id="gameImage" @change="GetImage"
                                     accept="image/*">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.product_image">{{
-                                    errors.product_image[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.product_image">{{
+                                    errors.product_image[0] }}</p>
                             </div>
 
                             <div class="mb-3" id="imagePreviewContainer">
@@ -111,8 +111,8 @@
                                 <label for="seoTitle" class="form-label">SEO Title</label>
                                 <input type="text" class="form-control custom-input" id="seoTitle"
                                     v-model="ProductData.meta_title" placeholder="Enter SEO title for the product">
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.meta_title">{{
-                                    errors.meta_title[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.meta_title">{{
+                                    errors.meta_title[0] }}</p>
                             </div>
 
                             <div class="mb-3">
@@ -120,16 +120,16 @@
                                 <textarea class="form-control custom-input" id="seoDescription"
                                     v-model="ProductData.meta_description" rows="3"
                                     placeholder="Enter SEO description for the product"></textarea>
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.meta_description">{{
-                                    errors.meta_description[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.meta_description">{{
+                                    errors.meta_description[0] }}</p>
                             </div>
 
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="isFeatured"
                                     v-model="ProductData.isFeatured">
                                 <label class="form-check-label" for="isFeatured">Is Featured</label>
-                                <!-- <p class="text-danger mt-1 error_message" v-if="errors.isFeatured">{{
-                                    errors.isFeatured[0] }}</p> -->
+                                <p class="text-danger mt-1 error_message" v-if="errors.isFeatured">{{
+                                    errors.isFeatured[0] }}</p>
                             </div>
                         </div>
                     </div>
@@ -195,6 +195,7 @@ const GetImage = (event) => {
 }
 const ProductFormData = async () => {
     try {
+        Object.keys(errors).forEach(key => delete errors[key]);
         const formData = new FormData();
         formData.append('_method', 'PATCH');
         formData.append('name', ProductData.value.name);
@@ -205,7 +206,7 @@ const ProductFormData = async () => {
         formData.append('size', ProductData.value.size);
         formData.append('weight', ProductData.value.weight);
         formData.append('packageType', ProductData.value.packageType);
-        if (ProductData.value.product_image) {
+        if (ProductData.value.product_image instanceof File) {
             formData.append('product_image', ProductData.value.product_image);
         }
         formData.append('meta_title', ProductData.value.meta_title);
@@ -216,9 +217,14 @@ const ProductFormData = async () => {
                 'Content-Type': 'multipart/form-data'
             }
         });
+
         if(response.data.status == 200){
             router.push({name: 'admin_products'});
             toast.success(response.data.message);
+            console.log(response)
+        }else if(response.data.status == 422){
+            Object.assign(errors, response.data.errors);
+            console.log(response)
         }
 
     } catch (error) {
