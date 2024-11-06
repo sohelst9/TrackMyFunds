@@ -143,8 +143,9 @@
 
 <script setup>
 import axios from 'axios';
-import { defineProps, onMounted, ref } from 'vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
 //--- using props
 const props = defineProps({
@@ -155,11 +156,14 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const toast = useToast();
+const PreviewImage = ref(null);
+const errors = reactive({});
 
 //--- using ref and store product data
 const ProductData = ref(null);
 
-const PreviewImage = ref(null);
+
 
 //-- call api to get product data
 const getProductData = async () => {
@@ -185,9 +189,40 @@ onMounted(() => {
 //---update code 
 
 const GetImage = (event) => {
-
+    const file = event.target.files[0];
+    ProductData.value.product_image = file;
+    PreviewImage.value = URL.createObjectURL(file);
 }
-const ProductFormData = () => {
+const ProductFormData = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('_method', 'PATCH');
+        formData.append('name', ProductData.value.name);
+        formData.append('category', ProductData.value.category);
+        formData.append('price', ProductData.value.price);
+        formData.append('quantity', ProductData.value.quantity);
+        formData.append('description', ProductData.value.description);
+        formData.append('size', ProductData.value.size);
+        formData.append('weight', ProductData.value.weight);
+        formData.append('packageType', ProductData.value.packageType);
+        if (ProductData.value.product_image) {
+            formData.append('product_image', ProductData.value.product_image);
+        }
+        formData.append('meta_title', ProductData.value.meta_title);
+        formData.append('meta_description', ProductData.value.meta_description);
+        formData.append('isFeatured', ProductData.value.isFeatured ? 1 : 0);
+        const response = await axios.post(`/product/${props.slug}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        if(response.data.status == 200){
+            router.push({name: 'admin_products'});
+            toast.success(response.data.message);
+        }
 
+    } catch (error) {
+        console.error("Error updating product data:", error);
+    }
 }
 </script>

@@ -16,7 +16,7 @@ class ProductController extends Controller
     //--index
     public function index()
     {
-        $products = Product::latest()->paginate(5);
+        $products = Product::latest()->paginate(15);
         // $products = Product::latest()
         //     ->where('created_at', '>=', Carbon::now()->addDays(2))
         //     ->paginate(5);
@@ -108,9 +108,12 @@ class ProductController extends Controller
     public function update(Request $request, $slug)
     {
         $product = Product::where('slug', $slug)->first();
+        // return $request->all();
         if ($product) {
             $product->name = $request->name ?? $product->name;
-            $product->slug = Str::slug($request->name) ?? $product->slug;
+            if ($request->has('name')) {
+                $product->slug = Str::slug($request->name);
+            }
             $product->category = $request->category ?? $product->category;
             $product->price = $request->price ?? $product->price;
             $product->stock_quantity = $request->quantity ?? $product->stock_quantity;

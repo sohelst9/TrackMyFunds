@@ -19,7 +19,8 @@
                      <th>Image</th>
                      <th>Category</th>
                      <th>Price</th>
-                     <th>Quantity</th>
+                     <th>Weight</th>
+                     <th>Type</th>
                      <th>Stock Quantity</th>
                      <th>Action</th>
                   </tr>
@@ -36,7 +37,8 @@
                         <a class="btn btn-sm btn-primary">{{ getCategoryName(product.category) }}</a>
                      </td>
                      <td>{{ product.price }}</td>
-                     <td>{{ product.quantity }}</td>
+                     <td>{{ product.weight }}</td>
+                     <td>{{ product.packageType }}</td>
                      <td>{{ product.stock_quantity }}</td>
 
                      <td>
