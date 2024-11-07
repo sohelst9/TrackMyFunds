@@ -14,12 +14,14 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     //--index
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::latest()->paginate(3);
-        // $products = Product::latest()
-        //     ->where('created_at', '>=', Carbon::now()->addDays(2))
-        //     ->paginate(5);
+        $search = $request->search;
+        $products = Product::query();
+        if ($search) {
+            $products = $products->where('name', 'like', "%{$search}%");
+        }
+        $products = $products->latest()->paginate(6);
         return ProductResource::collection($products);
     }
     //--store

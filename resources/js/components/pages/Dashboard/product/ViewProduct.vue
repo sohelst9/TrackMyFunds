@@ -6,6 +6,8 @@
       <div class="card">
          <div class="card-header d-flex justify-content-between align-items-center">
             <h4>All Products</h4>
+            <input v-model="search" type="text" @input="SearchProduct" placeholder="Search Products..."
+               class="form-control me-2" style="max-width: 300px;">
             <router-link class="btn btn-sm btn-success" :to="{ name: 'admin_product_add' }">New Product</router-link>
          </div>
          <div class="card-body">
@@ -51,9 +53,11 @@
             </table>
 
             <div class="pagination" v-if="meta">
-               <button :class="{'disabled' : !links.prev}" @click="PaginateUrl(links.prev)" :disabled="!links.prev"><fontawesome-icon class="icon" icon="chevron-left" /></button>
+               <button :class="{ 'disabled': !links.prev }" @click="PaginateUrl(links.prev)"
+                  :disabled="!links.prev"><fontawesome-icon class="icon" icon="chevron-left" /></button>
                <button class="active">{{ meta.current_page }}</button>
-               <button :class="{'desabled' : !links.next}" @click="PaginateUrl(links.next)" :disabled="!links.next"><fontawesome-icon class="icon" icon="chevron-right" /></button>
+               <button :class="{ 'desabled': !links.next }" @click="PaginateUrl(links.next)"
+                  :disabled="!links.next"><fontawesome-icon class="icon" icon="chevron-right" /></button>
             </div>
 
          </div>
@@ -71,12 +75,14 @@ const Products = ref([]);
 const loading = ref(true);
 const progressBarWidth = ref('0%');
 const error = ref(null);
-const toast = useToast()
-//-- paginate code--
+const toast = useToast();
+//-- paginate and search code--
 const meta = ref(null);
 const links = ref(null);
+const search = ref('');
 //-- paginate code end--
 
+// Define a mapping of category IDs to category names
 const categories = {
    1: "Organic Fruits",
    2: "Organic Vegetables",
@@ -88,11 +94,15 @@ const categories = {
    8: "Organic Beauty & Personal Care",
 };
 
+// Function to get category name based on category ID
 const getCategoryName = (categoryID) => {
-   return categories[categoryID];
+   return categories[categoryID]; // If categoryID exists in the categories object, it returns the name
 }
 
+
+// Function to generate the image path from a relative image name
 const ImagePath = (image) => {
+   // Concatenate the image path with the given image name to form the complete path
    return `/${image}`;
 }
 
@@ -112,27 +122,46 @@ const startLoading = () => {
    }, 10);
 };
 
+//---SearchProduct
+const SearchProduct = () => {
+   error.value = null; // Reset the error message before performing the search
+   getProducts(); // Call getProducts when search query changes
+}
+
 const getProducts = async (url = '/products') => {
+   loading.value = true; // start loading
+   error.value = null; // Reset the error message when starting a new request
    try {
-      const response = await axios.get(url);
+      // Sending a GET request to the API endpoint with a search term as a query parameter
+      const response = await axios.get(url, {
+         params: {
+            search: search.value // pass search parameters
+         }
+      });
+      // If data is received from the response
       if (response.data.data.length > 0) {
          Products.value = response.data.data;
          meta.value = response.data.meta;
          links.value = response.data.links;
-         loading.value = false
+         loading.value = false; // stop loading
          // console.log(response)
       } else {
-         error.value = "No Data Found";
+         error.value = "No Data Found"; // Set error message if no data is found
+         loading.value = false; // stop loading
       }
    } catch (error) {
       toast.error("Something went wrong. Please try again later.");
+      loading.value = false; // Stop loading
    }
 
 
 }
 
+// --- paginate url 
 const PaginateUrl = async (url) => {
+   // Check if the url is provided
    if (url) {
+      // Call the getProducts function with the given url to load the products
       getProducts(url)
    }
 }
