@@ -18,7 +18,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 <p class="mt-3 text-center">
-                    Don't have an account? <router-link to="/register">Register</router-link>
+                    Don't have an account? <router-link :to="{name: 'register'}">Register</router-link>
                 </p>
             </form>
         </div>

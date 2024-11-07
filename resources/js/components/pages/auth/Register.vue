@@ -34,7 +34,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Register</button>
                 <p class="mt-3 text-center">
-                    Already have an account? <router-link to="/">Login</router-link>
+                    Already have an account? <router-link :to="{name: 'login'}">Login</router-link>
                 </p>
             </form>
         </div>
