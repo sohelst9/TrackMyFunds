@@ -28,7 +28,7 @@
                <tbody>
 
                   <tr v-for="(product, index) in Products" :key="product.id">
-                     <td>{{ index + 1 }}</td>
+                     <td>{{ (meta.current_page - 1) * meta.per_page + index + 1 }}</td>
                      <td>{{ product.name }}</td>
                      <td>
                         <img :src="ImagePath(product.product_image)" alt="" width="100" class="rounded-custom">
@@ -49,6 +49,13 @@
                   </tr>
                </tbody>
             </table>
+
+            <div class="pagination" v-if="meta">
+               <button :class="{'disabled' : !links.prev}" @click="PaginateUrl(links.prev)" :disabled="!links.prev"><fontawesome-icon class="icon" icon="chevron-left" /></button>
+               <button class="active">{{ meta.current_page }}</button>
+               <button :class="{'desabled' : !links.next}" @click="PaginateUrl(links.next)" :disabled="!links.next"><fontawesome-icon class="icon" icon="chevron-right" /></button>
+            </div>
+
          </div>
       </div>
    </div>
@@ -65,6 +72,10 @@ const loading = ref(true);
 const progressBarWidth = ref('0%');
 const error = ref(null);
 const toast = useToast()
+//-- paginate code--
+const meta = ref(null);
+const links = ref(null);
+//-- paginate code end--
 
 const categories = {
    1: "Organic Fruits",
@@ -101,12 +112,15 @@ const startLoading = () => {
    }, 10);
 };
 
-const getProducts = async () => {
+const getProducts = async (url = '/products') => {
    try {
-      const response = await axios.get('/products');
+      const response = await axios.get(url);
       if (response.data.data.length > 0) {
          Products.value = response.data.data;
+         meta.value = response.data.meta;
+         links.value = response.data.links;
          loading.value = false
+         // console.log(response)
       } else {
          error.value = "No Data Found";
       }
@@ -114,7 +128,13 @@ const getProducts = async () => {
       toast.error("Something went wrong. Please try again later.");
    }
 
-   // console.log(response.data.data)
+
+}
+
+const PaginateUrl = async (url) => {
+   if (url) {
+      getProducts(url)
+   }
 }
 
 //---deleteProduct ---
@@ -168,5 +188,60 @@ onMounted(() => {
    font-weight: 700;
    font-family: 'Courier New', Courier, monospace;
 
+}
+
+/* pagination style */
+.pagination {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+   margin-top: 20px;
+}
+
+.pagination button {
+   background-color: #fff;
+   color: #007bff;
+   border: 1px solid #ddd;
+   padding: 10px;
+   border-radius: 50%;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+   font-size: 1.1rem;
+}
+
+.pagination button i {
+   font-size: 1.2rem;
+}
+
+.pagination button.active {
+   background-color: #007bff;
+   color: #fff;
+   border-color: #007bff;
+   font-weight: bold;
+}
+
+.pagination button:hover:not(.active) {
+   background-color: #f0f8ff;
+   transform: scale(1.1);
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.pagination button:active {
+   transform: scale(0.95);
+}
+
+.pagination button:disabled {
+   background-color: #e9ecef;
+   color: #adb5bd;
+   cursor: not-allowed;
+   box-shadow: none;
+}
+
+.pagination .icon {
+   font-size: 1.2rem;
 }
 </style>

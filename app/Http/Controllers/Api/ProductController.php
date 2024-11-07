@@ -16,7 +16,7 @@ class ProductController extends Controller
     //--index
     public function index()
     {
-        $products = Product::latest()->paginate(15);
+        $products = Product::latest()->paginate(3);
         // $products = Product::latest()
         //     ->where('created_at', '>=', Carbon::now()->addDays(2))
         //     ->paginate(5);
