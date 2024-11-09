@@ -8,17 +8,19 @@
     </a>
 </p>
 
-<h1 align="center">TrackMyFunds</h1>
+<h1 align="center">Vue-Laravel Simple Ecommerce Dashboard</h1>
 
-TrackMyFunds is a powerful financial management application built with **Laravel 11** and **Vue 3** Composition API. It provides users with an intuitive platform to monitor income, expenses, and savings, helping them gain better control over their finances.
+Vue-Laravel Simple Ecommerce Dashboard is a full-featured ecommerce platform built with **Laravel 11** for the backend and **Vue 3** for the frontend. It allows admins and users to manage products, categories, and profiles efficiently, with a modern and responsive design.
 
 ---
 
 ## Features
-- **Secure Laravel Backend**: Built with Laravel 11, providing RESTful API endpoints.
-- **Responsive Vue 3 Frontend**: Utilizes the Composition API for a modern, reactive user interface.
-- **Authentication**: Supports user registration, login, and session management.
-- **Transaction Tracking**: Allows tracking of income, expenses, and savings, with an intuitive dashboard view.
+- **Authentication**: User login, registration, and profile management.
+- **Dashboard Overview**: View overall statistics, recent activities, and product details.
+- **Product Management**: Easily upload, view, edit, and delete products.
+- **Category Management**: Add, edit, and delete product categories.
+- **User Profile**: Update personal details and change password.
+- **Responsive Design**: Built with Vue 3 Composition API and TailwindCSS for a modern, mobile-first experience.
 
 ## Prerequisites
 Ensure your development environment meets the following requirements:
@@ -31,5 +33,5 @@ Ensure your development environment meets the following requirements:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/sohelst9/TrackMyFunds.git
-cd TrackMyFunds
+git clone https://github.com/yourusername/vue-laravel-ecommerce-dashboard.git
+cd vue-laravel-ecommerce-dashboard
