@@ -33,5 +33,5 @@ Ensure your development environment meets the following requirements:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/vue-laravel-ecommerce-dashboard.git
+git clone https://github.com/sohelst9/vue-laravel-simple-ecommerce-dashboard.git
 cd vue-laravel-ecommerce-dashboard
