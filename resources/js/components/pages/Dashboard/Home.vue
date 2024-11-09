@@ -5,7 +5,7 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Total Product</h5>
-                    <p class="card-text">50</p>
+                    <p class="card-text">{{ totalProducts ? totalProducts : 0 }}</p>
                 </div>
             </div>
         </div>
@@ -48,32 +48,27 @@
                             <th>#</th>
                             <th>Product Name</th>
                             <th>Category</th>
+                            <th>Image</th>
                             <th>Price</th>
-                            <th>Action</th>
+                            <th>Stock Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Soccer and Spikes</td>
-                            <td>450</td>
-                            <td>450</td>
-                            <td><button class="btn btn-sm btn-primary">View</button></td>
+
+
+                        <tr v-for="(Product, index) in Products" :key="Product.id">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ Product.name }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm">{{ getCategoryName(Product.category) }}</a>
+                            </td>
+                            <td>
+                                <img :src="ProductImage(Product.product_image)" width="100" class="rounded-custom">
+                            </td>
+                            <td>{{ Product.price }}</td>
+                            <td>{{ Product.stock_quantity }}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Car Racing 3D</td>
-                            <td>300</td>
-                            <td>300</td>
-                            <td><button class="btn btn-sm btn-primary">View</button></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Platformer Hero</td>
-                            <td>150</td>
-                            <td>150</td>
-                            <td><button class="btn btn-sm btn-primary">View</button></td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -82,4 +77,60 @@
 </template>
 
 <script setup>
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import { useToast } from "vue-toastification";
+
+
+const Products = ref([]);
+const totalProducts = ref(null);
+const toast = useToast();
+
+const categories = {
+    1: "Organic Fruits",
+    2: "Organic Vegetables",
+    3: "Organic Grains",
+    4: "Organic Dairy Products",
+    5: "Organic Meat & Poultry",
+    6: "Organic Beverages",
+    7: "Organic Snacks",
+    8: "Organic Beauty & Personal Care",
+};
+
+// Function to get category name based on category ID
+const getCategoryName = (categoryID) => {
+    return categories[categoryID]; // If categoryID exists in the categories object, it returns the name
+}
+
+//--ProductImage
+const ProductImage = (Image) => {
+    return `/${Image}`
+}
+
+const getProducts = async () => {
+    try {
+        const response = await axios.get('/dashboard_overview');
+        totalProducts.value = response.data.totalProducts;
+        if (response.data.products.length > 0) {
+            Products.value = response.data.products;
+        } else {
+            toast.error('Data Not Found');
+        }
+    } catch (error) {
+        toast.error("Something went wrong. Please try again later.");
+    }
+}
+
+onMounted(() => {
+    getProducts();
+})
 </script>
+
+<style scoped>
+.rounded-custom {
+    border-radius: 20px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+</style>

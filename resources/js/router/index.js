@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import About from "../components/pages/About.vue";
 import Notfound from "../components/pages/Notfound.vue";
-import Add from "../components/pages/trnx/Add.vue";
 import Login from "../components/pages/auth/Login.vue";
 import Register from "../components/pages/auth/Register.vue";
 import { useAuth } from "../auth/auth";
@@ -10,26 +8,12 @@ import UserSection from "../components/pages/Dashboard/UserSection.vue";
 import ViewProduct from "../components/pages/Dashboard/product/ViewProduct.vue";
 import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
 import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
-import Index from "../components/Front/index.vue";
 
 const routes = [
-    //--frontend routes ----
-    {
-        path: "/",
-        name: "index_front",
-        component: Index,
-        meta: {
-            layout: "frontend",
-            title: "Frontend - Home Page",
-            description: "hello I am Frontend description",
-            ogTitle: "OG Title",
-            ogDescription: "OG Description",
-        },
-    },
-
+    
     //---dashboard routes -----
     {
-        path: "/admin/login",
+        path: "/",
         name: "login",
         component: Login,
         meta: {
@@ -132,20 +116,6 @@ router.beforeEach((to, from, next) => {
         }
         if (to.meta.description) {
             updateMetaTag("description", to.meta.description);
-        }
-        // Open Graph Title
-        if (to.meta.ogTitle) {
-            updateMetaTag("og:title", to.meta.ogTitle);
-        }
-
-        // Open Graph Description
-        if (to.meta.ogDescription) {
-            updateMetaTag("og:description", to.meta.ogDescription);
-        }
-        
-        // Open Graph URL
-        if (to.meta.ogUrl) {
-            updateMetaTag("og:url", to.meta.ogUrl);
         }
         next();
     }

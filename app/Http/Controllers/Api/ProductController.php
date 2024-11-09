@@ -13,6 +13,16 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    //--dashboard_overview
+    public function dashboard_overview()
+    {
+        $totalProducts = Product::count();
+        $products = Product::latest()->take(10)->get();
+        return response()->json([
+            'products' => $products,
+            'totalProducts' => $totalProducts
+        ]);
+    }
     //--index
     public function index(Request $request)
     {

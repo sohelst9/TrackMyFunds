@@ -8,12 +8,7 @@
             <router-view />
         </div>
     </div>
-    <!-- if layout frontend then show all  frontend  layout  -->
-    <div v-else-if="isFrontEnd">
-        <router-view />
-    </div>
 
-    <!-- if  not layout frontend and dashboard then show others all page  -->
     <div v-else>
         <router-view />
     </div>
@@ -32,7 +27,6 @@ import Navbar from './pages/Dashboard/app/Navbar.vue';
 const route = useRoute();
 // const showHeaderFooter = computed(() => !['login', 'register', 'notfound'].includes(route.name));
 
-// layout based condtion and show frontend and dashboard
+// layout based condtion and show dashboard
 const isDashboard = computed(() => route.meta.layout === 'dashboard');
-const isFrontEnd = computed(() => route.meta.layout === 'frontend');
 </script>
