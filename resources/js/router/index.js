@@ -8,9 +8,9 @@ import UserSection from "../components/pages/Dashboard/UserSection.vue";
 import ViewProduct from "../components/pages/Dashboard/product/ViewProduct.vue";
 import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
 import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
+import CategoryAdd from "../components/pages/Dashboard/category/CategoryAdd.vue";
 
 const routes = [
-    
     //---dashboard routes -----
     {
         path: "/",
@@ -49,6 +49,18 @@ const routes = [
             requiresAuth: true,
             layout: "dashboard",
         },
+    },
+
+    //-- category router
+
+    {
+        path: "/admin/categories",
+        name: 'admin_categories',
+        component: CategoryAdd,
+        meta:{
+            requiresAuth: true,
+            layout: 'dashboard'
+        }
     },
 
     //---product route

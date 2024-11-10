@@ -20,7 +20,8 @@
 
                             <div class="mb-3">
                                 <label for="pCategory" class="form-label">Product Category</label>
-                                <select @input="ClearError('category')" class="form-select custom-select" id="pCategory" v-model="ProductData.category">
+                                <select @input="ClearError('category')" class="form-select custom-select" id="pCategory"
+                                    v-model="ProductData.category">
                                     <option value="" disabled selected>Select Category</option>
                                     <option value="1">Organic Fruits</option>
                                     <option value="2">Organic Vegetables</option>
@@ -37,16 +38,16 @@
 
                             <div class="mb-3">
                                 <label for="productPrice" class="form-label">Product Price</label>
-                                <input @input="ClearError('price')" type="number" class="form-control custom-input" id="productPrice"
-                                    name="productPrice" placeholder="Enter product price" step="0.01"
+                                <input @input="ClearError('price')" type="number" class="form-control custom-input"
+                                    id="productPrice" name="productPrice" placeholder="Enter product price" step="0.01"
                                     v-model="ProductData.price">
                                 <p class="text-danger mt-1 error_message" v-if="errors.price">{{ errors.price[0] }}</p>
                             </div>
 
                             <div class="mb-3">
                                 <label for="productStock" class="form-label">Stock Quantity</label>
-                                <input @input="ClearError('quantity')" type="number" class="form-control custom-input" id="productStock"
-                                    name="productStock" placeholder="Enter stock quantity"
+                                <input @input="ClearError('quantity')" type="number" class="form-control custom-input"
+                                    id="productStock" name="productStock" placeholder="Enter stock quantity"
                                     v-model="ProductData.quantity">
                                 <p class="text-danger mt-1 error_message" v-if="errors.quantity">{{ errors.quantity[0]
                                     }}</p>
@@ -54,8 +55,8 @@
 
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea @input="ClearError('description')" class="form-control custom-textarea" id="description"
-                                    v-model="ProductData.description" rows="4"></textarea>
+                                <textarea @input="ClearError('description')" class="form-control custom-textarea"
+                                    id="description" v-model="ProductData.description" rows="4"></textarea>
                                 <p class="text-danger mt-1 error_message" v-if="errors.description">{{
                                     errors.description[0] }}</p>
                             </div>
@@ -95,7 +96,8 @@
 
                             <div class="mb-3">
                                 <label for="gameImage" class="form-label">Upload Game Image</label>
-                                <input @input="ClearError('product_image')" type="file" class="form-control custom-input" id="gameImage" @change="GetImage"
+                                <input @input="ClearError('product_image')" type="file"
+                                    class="form-control custom-input" id="gameImage" @change="GetImage"
                                     accept="image/*">
                                 <p class="text-danger mt-1 error_message" v-if="errors.product_image">{{
                                     errors.product_image[0] }}</p>

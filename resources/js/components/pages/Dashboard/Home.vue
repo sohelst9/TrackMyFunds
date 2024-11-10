@@ -20,8 +20,8 @@
         <div class="col-md-3">
             <div class="card bg-warning text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Total Sale</h5>
-                    <p class="card-text">25,000</p>
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text">{{ usersTotal ? usersTotal: 0 }}</p>
                 </div>
             </div>
         </div>
@@ -84,6 +84,7 @@ import { useToast } from "vue-toastification";
 
 const Products = ref([]);
 const totalProducts = ref(null);
+const usersTotal = ref(null);
 const toast = useToast();
 
 const categories = {
@@ -111,6 +112,7 @@ const getProducts = async () => {
     try {
         const response = await axios.get('/dashboard_overview');
         totalProducts.value = response.data.totalProducts;
+        usersTotal.value = response.data.usersTotal;
         if (response.data.products.length > 0) {
             Products.value = response.data.products;
         } else {

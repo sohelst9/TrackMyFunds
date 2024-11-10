@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -20,7 +21,8 @@ class ProductController extends Controller
         $products = Product::latest()->take(10)->get();
         return response()->json([
             'products' => $products,
-            'totalProducts' => $totalProducts
+            'totalProducts' => $totalProducts,
+            'usersTotal' => User::count()
         ]);
     }
     //--index
