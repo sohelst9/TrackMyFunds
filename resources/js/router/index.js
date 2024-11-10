@@ -9,6 +9,7 @@ import ViewProduct from "../components/pages/Dashboard/product/ViewProduct.vue";
 import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
 import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
 import CategoryAdd from "../components/pages/Dashboard/category/CategoryAdd.vue";
+import ViewCategory from "../components/pages/Dashboard/category/ViewCategory.vue";
 
 const routes = [
     //---dashboard routes -----
@@ -56,6 +57,16 @@ const routes = [
     {
         path: "/admin/categories",
         name: 'admin_categories',
+        component: ViewCategory,
+        meta:{
+            requiresAuth: true,
+            layout: 'dashboard'
+        }
+    },
+
+    {
+        path: "/admin/category/create",
+        name: 'admin_category_create',
         component: CategoryAdd,
         meta:{
             requiresAuth: true,

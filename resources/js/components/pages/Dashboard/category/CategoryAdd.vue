@@ -81,6 +81,7 @@ const ImageChange = (e) => {
 
 const CategoryFormData =async () => {
     try{
+        Object.keys(errors).forEach(key => delete errors[key]);
         const response = await axios.post('/category', categories, {
         headers: {
             'Content-Type': 'multipart/form-data'
