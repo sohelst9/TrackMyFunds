@@ -18,6 +18,7 @@ class CategoryResource extends JsonResource
         return[
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'description' => $this->description,
             'short_desc' => Str::limit($this->description, 30),
             'image' => asset($this->image),

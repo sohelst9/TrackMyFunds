@@ -10,6 +10,7 @@ import Addproduct from "../components/pages/Dashboard/product/Addproduct.vue";
 import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
 import CategoryAdd from "../components/pages/Dashboard/category/CategoryAdd.vue";
 import ViewCategory from "../components/pages/Dashboard/category/ViewCategory.vue";
+import CategoryEdit from "../components/pages/Dashboard/category/CategoryEdit.vue";
 
 const routes = [
     //---dashboard routes -----
@@ -69,6 +70,17 @@ const routes = [
         name: 'admin_category_create',
         component: CategoryAdd,
         meta:{
+            requiresAuth: true,
+            layout: 'dashboard'
+        }
+    },
+
+    {
+        path: '/admin/category/edit/:slug',
+        name: 'admin_category_edit',
+        component: CategoryEdit,
+        props: true,
+        meta: {
             requiresAuth: true,
             layout: 'dashboard'
         }

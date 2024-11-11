@@ -30,13 +30,10 @@
                                 <img alt="" :src="category.image" width="100" class="rounded-custom">
                             </td>
                             <td>{{ category.short_desc }}</td>
-                            <td>edit</td>
-
-                            <!-- <td>
-                         <router-link class="btn btn-sm btn-primary me-2"
-                            :to="{ name: 'product_edit', params: { slug: product.slug } }">Edit</router-link>
-                         <a class="btn btn-sm btn-danger" @click="deleteProduct(product.slug)">Delete</a>
-                      </td> -->
+                            <td>
+                                <router-link class="btn btn-sm btn-primary me-2" :to="{name: 'admin_category_edit', params: {slug: category.slug} }">Edit</router-link>
+                                <a class="btn btn-sm btn-danger">Delete</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -82,7 +79,7 @@ const getCategory = async (url = '/category') => {
             categories.value = response.data.data;
             links.value = response.data.links;
             meta.value = response.data.meta;
-            console.log(response.data)
+            // console.log(response.data)
             loading.value = false
         } else {
             error.value = "Data Not Found";

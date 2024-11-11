@@ -52,7 +52,7 @@
                </tbody>
             </table>
 
-            <div class="pagination" v-if="meta">
+            <div class="pagination" v-if="ShowPaginate">
                <button :class="{ 'disabled': !links.prev }" @click="PaginateUrl(links.prev)"
                   :disabled="!links.prev"><fontawesome-icon class="icon" icon="chevron-left" /></button>
                <button class="active">{{ meta.current_page }}</button>
@@ -67,7 +67,7 @@
 
 <script setup>
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
 
@@ -156,6 +156,11 @@ const getProducts = async (url = '/products') => {
 
 
 }
+
+//--ShowPaginate
+const ShowPaginate = computed(() => {
+   return meta.value && meta.value.total > meta.value.per_page;
+})
 
 // --- paginate url 
 const PaginateUrl = async (url) => {

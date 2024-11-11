@@ -67,15 +67,20 @@ class Categorycontroller extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show(string $slug)
     {
-        // Display the specified resource.
+         $category = Category::where('slug', $slug)->first();
+         if($category){
+            return new CategoryResource($category);
+         }else{
+            return response()->json([
+                'status' => 404,
+                'message' => "This category is not found in our records.",
+            ]);
+         }
     }
 
-    public function edit(string $id)
-    {
-        // Show the form for editing the specified resource.
-    }
+    
 
     public function update(Request $request, string $id)
     {
