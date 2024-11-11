@@ -3,7 +3,7 @@
         <div class="custom-card shadow-sm border-0">
             <div class="custom-card-header d-flex justify-content-between align-items-center">
                 <h4>New Category</h4>
-                <router-link class="btn custom-btn-light btn-sm" :to="{ name: 'admin_products' }">Back</router-link>
+                <router-link class="btn custom-btn-light btn-sm" :to="{ name: 'admin_categories' }">Back</router-link>
             </div>
             <hr>
             <div class="card-body">

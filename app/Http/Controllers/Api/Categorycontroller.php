@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -10,10 +11,15 @@ use Illuminate\Support\Str;
 
 class Categorycontroller extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-       $categories = Category::all();
-       return response()->json($categories);
+        $search = $request->input('search');
+       $categories = Category::query();
+       if($search){
+        $categories = $categories->where('name', 'like', "%$search%");
+       }
+       $categories = $categories->latest()->paginate(12);
+       return CategoryResource::collection($categories);
     }
 
     public function store(Request $request)

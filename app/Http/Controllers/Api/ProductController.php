@@ -33,7 +33,7 @@ class ProductController extends Controller
         if ($search) {
             $products = $products->where('name', 'like', "%{$search}%");
         }
-        $products = $products->latest()->paginate(6);
+        $products = $products->latest()->paginate(10);
         return ProductResource::collection($products);
     }
     //--store
