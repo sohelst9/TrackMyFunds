@@ -19,7 +19,7 @@
 
                             <div class="mb-3">
                                 <label for="image" class="form-label">Category Image</label>
-                                <input type="file" class="form-control custom-input" id="image">
+                                <input type="file" @change="IamgeChange" class="form-control custom-input" id="image">
                                 <p class="error_message" v-if="errors.image">{{ errors.image[0] }}</p>
                             </div>
 
@@ -47,7 +47,7 @@
                                     id="metadescription" rows="4"></textarea>
                             </div>
 
-                            <button type="submit" class="btn custom-btn-gradient">Add Category</button>
+                            <button type="submit" class="btn custom-btn-gradient">Update Category</button>
 
                         </div>
                     </div>
@@ -78,6 +78,8 @@ const categories = ref(null);
 const errors = reactive({});
 const PreviewcateImage = ref(null);
 
+
+
 const getCategoryData = async () => {
     const response = await axios.get(`/category/${props.slug}`);
     if (response.data.status === 404) {
@@ -88,30 +90,61 @@ const getCategoryData = async () => {
         PreviewcateImage.value = response.data.data.image;
 
     }
-    
+
 }
+
 
 onMounted(() => {
     getCategoryData()
 })
 
+//--update code
 
+const IamgeChange = (e) => {
+    const file = e.target.files[0];
+    categories.value.image = file;
+    PreviewcateImage.value = URL.createObjectURL(file);
+
+}
 
 const CategoryFormDataUpdate = async () => {
-    const categoryUpdateData = new FormData();
-    categoryUpdateData.append('_method', 'PATCH');
-    categoryUpdateData.append('name', categories.value.name);
-    categoryUpdateData.append('description', categories.value.description);
-    categoryUpdateData.append('meta_title', categories.value.meta_title);
-    categoryUpdateData.append('meta_description', categories.value.meta_description);
-
-    const response = await axios.post(`/category/${categories.value.slug}`, categoryUpdateData, {
-        headers: {
-            'Content-Type' : 'multipart/form-data'
+    try {
+        Object.keys(errors).forEach(key => delete errors[key]);
+        const categoryUpdateData = new FormData();
+        categoryUpdateData.append('_method', 'PATCH');
+        categoryUpdateData.append('name', categories.value.name);
+        categoryUpdateData.append('description', categories.value.description);
+        categoryUpdateData.append('meta_title', categories.value.meta_title);
+        categoryUpdateData.append('meta_description', categories.value.meta_description);
+        if(categories.value.image instanceof File){
+            categoryUpdateData.append('image', categories.value.image);
         }
-    })
-    console.log('data updated');
+
+        const response = await axios.post(`/category/${categories.value.slug}`, categoryUpdateData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        if (response.data.status === 200) {
+            toast.success(response.data.message);
+            router.push({name: 'admin_categories'});
+        } else if (response.data.status === 422) {
+            Object.assign(errors, response.data.errors)
+        }
+    } catch (error) {
+        toast.error("Something went wrong. Please try again later.");
+    }
 }
 
 
 </script>
+
+
+<style scoped>
+.error_message {
+    font-weight: bold;
+    font-style: italic;
+    color: rgb(131, 11, 11);
+    margin-top: 3px;
+}
+</style>

@@ -225,10 +225,8 @@ const ProductFormData = async () => {
         if(response.data.status == 200){
             router.push({name: 'admin_products'});
             toast.success(response.data.message);
-            console.log(response)
         }else if(response.data.status == 422){
             Object.assign(errors, response.data.errors);
-            console.log(response)
         }
 
     } catch (error) {
