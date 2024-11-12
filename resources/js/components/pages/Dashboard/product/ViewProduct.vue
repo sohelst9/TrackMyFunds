@@ -36,7 +36,7 @@
                         <img :src="ImagePath(product.product_image)" alt="" width="100" class="rounded-custom">
                      </td>
                      <td>
-                        <a class="btn btn-sm btn-primary">{{ getCategoryName(product.category) }}</a>
+                        <a class="btn btn-sm btn-primary">{{ product.category_name }}</a>
                      </td>
                      <td>{{ product.price }}</td>
                      <td>{{ product.weight }}</td>
@@ -174,13 +174,17 @@ const PaginateUrl = async (url) => {
 //---deleteProduct ---
 const deleteProduct = async (slug) => {
    try {
-      const response = await axios.delete(`/product/delete/${slug}`);
-      if (response.status === 200) {
-         toast.success(response.data.message);
-         getProducts();
-         console.log(response.data.message)
-      } else if (response.data.status === 404) {
-         toast.error(response.data.message)
+      if (window.confirm("Are you sure you want to delete this item?")) {
+         const response = await axios.delete(`/product/delete/${slug}`);
+         if (response.status === 200) {
+            toast.success(response.data.message);
+            getProducts();
+            console.log(response.data.message)
+         } else if (response.data.status === 404) {
+            toast.error(response.data.message)
+         }
+      } else {
+         toast.error('Delete canceled.')
       }
    } catch (error) {
       toast.error("Something went wrong. Please try again later.");

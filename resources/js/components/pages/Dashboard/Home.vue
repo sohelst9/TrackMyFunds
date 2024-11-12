@@ -13,7 +13,7 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">All Category</h5>
-                    <p class="card-text">1200</p>
+                    <p class="card-text">{{ totalcategories ? totalcategories: 0 }}</p>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ Product.name }}</td>
                             <td>
-                                <a class="btn btn-primary btn-sm">{{ getCategoryName(Product.category) }}</a>
+                                <a class="btn btn-primary btn-sm">{{ Product.category ? Product.category.name : null }}</a>
                             </td>
                             <td>
                                 <img :src="ProductImage(Product.product_image)" width="100" class="rounded-custom">
@@ -84,24 +84,9 @@ import { useToast } from "vue-toastification";
 
 const Products = ref([]);
 const totalProducts = ref(null);
+const totalcategories = ref(null);
 const usersTotal = ref(null);
 const toast = useToast();
-
-const categories = {
-    1: "Organic Fruits",
-    2: "Organic Vegetables",
-    3: "Organic Grains",
-    4: "Organic Dairy Products",
-    5: "Organic Meat & Poultry",
-    6: "Organic Beverages",
-    7: "Organic Snacks",
-    8: "Organic Beauty & Personal Care",
-};
-
-// Function to get category name based on category ID
-const getCategoryName = (categoryID) => {
-    return categories[categoryID]; // If categoryID exists in the categories object, it returns the name
-}
 
 //--ProductImage
 const ProductImage = (Image) => {
@@ -113,6 +98,7 @@ const getProducts = async () => {
         const response = await axios.get('/dashboard_overview');
         totalProducts.value = response.data.totalProducts;
         usersTotal.value = response.data.usersTotal;
+        totalcategories.value = response.data.totalcategories;
         if (response.data.products.length > 0) {
             Products.value = response.data.products;
         } else {

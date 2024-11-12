@@ -20,16 +20,11 @@
 
                             <div class="mb-3">
                                 <label for="pCategory" class="form-label">Product Category</label>
-                                <select class="form-select custom-select" id="pCategory" v-model="ProductData.category">
+                                <select class="form-select custom-select" id="pCategory"
+                                    v-model="ProductData.category_id">
                                     <option value="" disabled selected>Select Category</option>
-                                    <option value="1">Organic Fruits</option>
-                                    <option value="2">Organic Vegetables</option>
-                                    <option value="3">Organic Grains</option>
-                                    <option value="4">Organic Dairy Products</option>
-                                    <option value="5">Organic Meat & Poultry</option>
-                                    <option value="6">Organic Beverages</option>
-                                    <option value="7">Organic Snacks</option>
-                                    <option value="8">Organic Beauty & Personal Care</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+
                                 </select>
                                 <p class="text-danger mt-1 error_message" v-if="errors.category">{{ errors.category[0]
                                     }}</p>
@@ -160,6 +155,18 @@ const toast = useToast();
 const PreviewImage = ref(null);
 const errors = reactive({});
 
+//--call category data --
+const categories = ref([]);
+const getCategories = async () => {
+    try {
+       const response = await axios.get('/category');
+       categories.value = response.data.data;
+
+    } catch (error) {
+        console.log('error', error);
+    }
+}
+
 //--- using ref and store product data
 const ProductData = ref(null);
 
@@ -182,6 +189,7 @@ const getProductData = async () => {
 //-- call api when component is mounted
 onMounted(() => {
     getProductData();
+    getCategories();
 })
 
 
@@ -203,7 +211,7 @@ const ProductFormData = async () => {
         const formData = new FormData();
         formData.append('_method', 'PATCH');
         formData.append('name', ProductData.value.name);
-        formData.append('category', ProductData.value.category);
+        formData.append('category', ProductData.value.category_id);
         formData.append('price', ProductData.value.price);
         formData.append('quantity', ProductData.value.quantity);
         formData.append('description', ProductData.value.description);
@@ -222,10 +230,10 @@ const ProductFormData = async () => {
             }
         });
 
-        if(response.data.status == 200){
-            router.push({name: 'admin_products'});
+        if (response.data.status == 200) {
+            router.push({ name: 'admin_products' });
             toast.success(response.data.message);
-        }else if(response.data.status == 422){
+        } else if (response.data.status == 422) {
             Object.assign(errors, response.data.errors);
         }
 

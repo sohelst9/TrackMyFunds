@@ -23,14 +23,8 @@
                                 <select @input="ClearError('category')" class="form-select custom-select" id="pCategory"
                                     v-model="ProductData.category">
                                     <option value="" disabled selected>Select Category</option>
-                                    <option value="1">Organic Fruits</option>
-                                    <option value="2">Organic Vegetables</option>
-                                    <option value="3">Organic Grains</option>
-                                    <option value="4">Organic Dairy Products</option>
-                                    <option value="5">Organic Meat & Poultry</option>
-                                    <option value="6">Organic Beverages</option>
-                                    <option value="7">Organic Snacks</option>
-                                    <option value="8">Organic Beauty & Personal Care</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                                   
                                 </select>
                                 <p class="text-danger mt-1 error_message" v-if="errors.category">{{ errors.category[0]
                                     }}</p>
@@ -146,7 +140,7 @@
 
 <script setup>
 import axios from 'axios';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 
@@ -172,6 +166,17 @@ const GetImage = (e) => {
     const image = e.target.files[0];
     ProductData.product_image = image;
     PreviewImage.value = URL.createObjectURL(image);
+}
+
+//-- fetch categories--
+const categories = ref([]);
+const getCategories =async () => {
+    try{
+        const response = await axios.get('/category');
+        categories.value = response.data.data;
+    }catch(err){
+        console.error("Error fetching categories:", err);
+    }
 }
 
 
@@ -207,6 +212,10 @@ const ProductFormData = async () => {
         toast.error("Something went wrong. Please try again later.");
     }
 }
+
+onMounted(() => {
+    getCategories();
+})
 </script>
 
 

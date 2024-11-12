@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -18,10 +19,12 @@ class ProductController extends Controller
     public function dashboard_overview()
     {
         $totalProducts = Product::count();
-        $products = Product::latest()->take(10)->get();
+        $totalcategories = Category::count();
+        $products = Product::latest()->take(10)->with('category')->get();
         return response()->json([
             'products' => $products,
             'totalProducts' => $totalProducts,
+            'totalcategories' => $totalcategories,
             'usersTotal' => User::count()
         ]);
     }
@@ -76,7 +79,7 @@ class ProductController extends Controller
             $product = new Product();
             $product->name = $request->name;
             $product->slug = $slug;
-            $product->category = $request->category;
+            $product->category_id = $request->category;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
             $product->stock_quantity = $request->quantity;
@@ -149,7 +152,7 @@ class ProductController extends Controller
                 if ($request->has('name')) {
                     $product->slug = Str::slug($request->name);
                 }
-                $product->category = $request->category ?? $product->category;
+                $product->category_id = $request->category ?? $product->category_id;
                 $product->price = $request->price ?? $product->price;
                 $product->stock_quantity = $request->quantity ?? $product->stock_quantity;
                 $product->description = $request->description ?? $product->description;
