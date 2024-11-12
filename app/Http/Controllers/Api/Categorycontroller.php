@@ -99,7 +99,7 @@ class Categorycontroller extends Controller
             $category = Category::where('slug', $slug)->first();
             if ($category) {
                 $category->name = $request->name ?? $category->name;
-                if($request->has('name')){
+                if ($request->has('name')) {
                     $category->slug = Str::slug($request->name);
                 }
                 $category->description = $request->description ?? $category->description;
@@ -141,8 +141,24 @@ class Categorycontroller extends Controller
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(string $slug)
     {
-        // Remove the specified resource from storage.
+        $category = Category::where('slug', $slug)->first();
+        if ($category) {
+            $old_image = $category->image;
+            if ($old_image && file_exists(public_path($old_image))) {
+                File::delete(public_path($old_image));
+            }
+            $category->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Category Deleted Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "This Category is not found in our records.",
+            ]);
+        }
     }
 }

@@ -31,8 +31,9 @@
                             </td>
                             <td>{{ category.short_desc }}</td>
                             <td>
-                                <router-link class="btn btn-sm btn-primary me-2" :to="{name: 'admin_category_edit', params: {slug: category.slug} }">Edit</router-link>
-                                <a class="btn btn-sm btn-danger">Delete</a>
+                                <router-link class="btn btn-sm btn-primary me-2"
+                                    :to="{ name: 'admin_category_edit', params: { slug: category.slug } }">Edit</router-link>
+                                <a class="btn btn-sm btn-danger" @click="DeleteCategory(category.slug)">Delete</a>
                             </td>
                         </tr>
                     </tbody>
@@ -104,6 +105,26 @@ const PaginateUrl = async (url) => {
 onMounted(() => {
     getCategory()
 })
+
+
+// ---deleteCategory
+const DeleteCategory = async (slug) => {
+    try {
+        if (window.confirm("Are you sure you want to delete this item?")) {
+            const response = await axios.delete(`/category/${slug}`);
+            if (response.data.status === 200) {
+                toast.success(response.data.message);
+                getCategory();
+            } else if (response.data.status === 404) {
+                toast.error(response.data.message)
+            }
+        } else {
+            toast.error('Delete canceled.')
+        }
+    } catch (err) {
+        toast.error("Something went wrong. Please try again later.");
+    }
+}
 
 const ShowPaginate = computed(() => {
     return meta.value && meta.value.total > meta.value.per_page;
