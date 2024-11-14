@@ -32,7 +32,7 @@ class ProductController extends Controller
     //--getProducts
     public function getProducts()
     {
-        $products = Product::select('id', 'name', 'slug')->latest()->get();
+        $products = Product::select('id', 'name', 'slug', 'stock_quantity', 'price')->latest()->get();
         return response()->json($products);
     }
 
