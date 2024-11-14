@@ -10,7 +10,7 @@
         <router-link :to="{ name: 'admin_products' }" class="item"><fontawesome-icon class="icon" icon="cart-plus" /> Products
         </router-link>
        
-        <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="home" /> Sales </router-link>
+        <router-link :to="{ name: 'admin_sales' }" class="item"><fontawesome-icon class="icon" icon="cash-register" /> Sales </router-link>
         <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="users" /> Users
         </router-link>
         <router-link :to="{ name: 'home' }" class="item"><fontawesome-icon class="icon" icon="fa-cog" /> Settings

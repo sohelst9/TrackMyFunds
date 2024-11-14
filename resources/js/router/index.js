@@ -11,6 +11,8 @@ import EditProduct from "../components/pages/Dashboard/product/editProduct.vue";
 import CategoryAdd from "../components/pages/Dashboard/category/CategoryAdd.vue";
 import ViewCategory from "../components/pages/Dashboard/category/ViewCategory.vue";
 import CategoryEdit from "../components/pages/Dashboard/category/CategoryEdit.vue";
+import AddSale from "../components/pages/Dashboard/sales/AddSale.vue";
+import ViewSale from "../components/pages/Dashboard/sales/ViewSale.vue";
 
 const routes = [
     //---dashboard routes -----
@@ -119,6 +121,28 @@ const routes = [
     },
 
     //---product route end
+
+
+    //-- sale route start
+    {
+        path: '/admin/sales',
+        name: 'admin_sales',
+        component: ViewSale,
+        meta: {
+            requiresAuth: true,
+            layout: 'dashboard',
+        }
+    },
+
+    {
+        path: '/admin/sale/add',
+        name: 'admin_sale_add',
+        component: AddSale,
+        meta: {
+            requiresAuth: true,
+            layout: 'dashboard',
+        }
+    },
 
     {
         path: "/:pathMatch(.*)*",

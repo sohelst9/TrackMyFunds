@@ -28,6 +28,14 @@ class ProductController extends Controller
             'usersTotal' => User::count()
         ]);
     }
+
+    //--getProducts
+    public function getProducts()
+    {
+        $products = Product::select('id', 'name', 'slug')->latest()->get();
+        return response()->json($products);
+    }
+
     //--index
     public function index(Request $request)
     {

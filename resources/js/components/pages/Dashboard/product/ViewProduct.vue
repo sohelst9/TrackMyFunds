@@ -82,24 +82,6 @@ const links = ref(null);
 const search = ref('');
 //-- paginate code end--
 
-// Define a mapping of category IDs to category names
-const categories = {
-   1: "Organic Fruits",
-   2: "Organic Vegetables",
-   3: "Organic Grains",
-   4: "Organic Dairy Products",
-   5: "Organic Meat & Poultry",
-   6: "Organic Beverages",
-   7: "Organic Snacks",
-   8: "Organic Beauty & Personal Care",
-};
-
-// Function to get category name based on category ID
-const getCategoryName = (categoryID) => {
-   return categories[categoryID]; // If categoryID exists in the categories object, it returns the name
-}
-
-
 // Function to generate the image path from a relative image name
 const ImagePath = (image) => {
    // Concatenate the image path with the given image name to form the complete path
