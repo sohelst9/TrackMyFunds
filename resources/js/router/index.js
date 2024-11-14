@@ -59,33 +59,33 @@ const routes = [
 
     {
         path: "/admin/categories",
-        name: 'admin_categories',
+        name: "admin_categories",
         component: ViewCategory,
-        meta:{
+        meta: {
             requiresAuth: true,
-            layout: 'dashboard'
-        }
+            layout: "dashboard",
+        },
     },
 
     {
         path: "/admin/category/create",
-        name: 'admin_category_create',
+        name: "admin_category_create",
         component: CategoryAdd,
-        meta:{
+        meta: {
             requiresAuth: true,
-            layout: 'dashboard'
-        }
+            layout: "dashboard",
+        },
     },
 
     {
-        path: '/admin/category/edit/:slug',
-        name: 'admin_category_edit',
+        path: "/admin/category/edit/:slug",
+        name: "admin_category_edit",
         component: CategoryEdit,
         props: true,
         meta: {
             requiresAuth: true,
-            layout: 'dashboard'
-        }
+            layout: "dashboard",
+        },
     },
 
     //---product route
@@ -122,26 +122,25 @@ const routes = [
 
     //---product route end
 
-
     //-- sale route start
     {
-        path: '/admin/sales',
-        name: 'admin_sales',
+        path: "/admin/sales",
+        name: "admin_sales",
         component: ViewSale,
         meta: {
             requiresAuth: true,
-            layout: 'dashboard',
-        }
+            layout: "dashboard",
+        },
     },
 
     {
-        path: '/admin/sale/add',
-        name: 'admin_sale_add',
+        path: "/admin/sale/add",
+        name: "admin_sale_add",
         component: AddSale,
         meta: {
             requiresAuth: true,
-            layout: 'dashboard',
-        }
+            layout: "dashboard",
+        },
     },
 
     {
@@ -159,8 +158,10 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
-    const { stateAuth } = useAuth();
+router.beforeEach(async (to, from, next) => {
+    const { stateAuth, checkAuth } = useAuth();
+    await checkAuth();
+
     // Access to authenticated routes is restricted if not logged in
     if (to.meta.requiresAuth && !stateAuth.isAuthenticated) {
         next({ name: "login" });

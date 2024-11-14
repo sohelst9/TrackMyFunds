@@ -42,7 +42,8 @@
                 <h4>Statistics</h4>
             </div>
             <div class="card-body">
-                <table class="table table-striped">
+                <p class="text-center" v-if="dataNotFound">{{ dataNotFound }}</p>
+                <table class="table table-striped" v-else>
                     <thead>
                         <tr>
                             <th>#</th>
@@ -87,6 +88,7 @@ const totalProducts = ref(null);
 const totalcategories = ref(null);
 const usersTotal = ref(null);
 const toast = useToast();
+const dataNotFound = ref(null);
 
 //--ProductImage
 const ProductImage = (Image) => {
@@ -102,7 +104,7 @@ const getProducts = async () => {
         if (response.data.products.length > 0) {
             Products.value = response.data.products;
         } else {
-            toast.error('Data Not Found');
+            dataNotFound.value = "Data Not Found";
         }
     } catch (error) {
         toast.error("Something went wrong. Please try again later.");

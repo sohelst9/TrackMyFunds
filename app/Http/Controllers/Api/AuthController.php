@@ -65,11 +65,13 @@ class AuthController extends Controller
             if (Auth::attempt($request->only('email', 'password'))) {
                 $user = Auth::user();
                 $token = $user->createToken('token')->plainTextToken;
+                $expiresIn = 86400; // 24 hours
                 return response()->json([
                     'status' => 200,
                     'success' => "Login Successfully",
                     'user' => $user,
-                    'token' => $token
+                    'token' => $token,
+                    'expiresIn' => $expiresIn,
                 ]);
             } else {
                 return response()->json([
