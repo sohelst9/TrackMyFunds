@@ -29,10 +29,37 @@ class AuthController extends Controller
             $path = null;
             if ($request->hasFile('profile')) {
                 $profile = $request->file('profile');
-                $profile_name = uniqid() . '-' . $request->name . '.' . $profile->getClientOriginalExtension();
-                $path = 'profile/' . $profile_name;
-                $profile->move(public_path('profile'), $profile_name);
+                $profile_name = uniqid() . '-' . $request->name . '.webp';
+                // Get the original dimensions of the image
+                list($width, $height) = getimagesize($profile);
+                // Set the new dimensions for resizing
+                $new_width = 150;
+                $new_height = 150;
+                // Create a new resized image
+                $image_p = imagecreatetruecolor($new_width, $new_height);
+                // Load the original image from file (GD will automatically detect the format)
+                $image = imagecreatefromstring(file_get_contents($profile));
+                if ($image === false) {
+                    return response()->json(['error' => 'Invalid image file'], 400);
+                }
+                // Copy and resize the original image into the new image resource
+                imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+                // Save the resized image in WebP format
+                $path = 'profiles/' . $profile_name;
+                $destinationPath = storage_path('app/public/' . $path);
+                // Check if the directory exists, if not create it
+                if (!is_dir(dirname($destinationPath))) {
+                    // Create directory and set permissions (0755)
+                    mkdir(dirname($destinationPath), 0755, true);
+                }
+                // Save the image as WebP
+                imagewebp($image_p, $destinationPath);
+                // Clear the memory used by the image resources
+                imagedestroy($image);
+                imagedestroy($image_p);
             }
+
+            // Create the user in the database with the profile image path
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -86,10 +113,12 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
+        $profileUrl = asset('storage/'. $user->profile);
         if ($user) {
             return response()->json([
                 'status' => 200,
-                'user' => $user
+                'user' => $user,
+                'profileUrl' => $user,
             ]);
         } else {
             return response()->json([

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use GuzzleHttp\Psr7\Rfc7230;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -42,9 +41,26 @@ class Categorycontroller extends Controller
             $path = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $imageName = uniqid() . '_' . $slug . '.' . $image->getClientOriginalExtension();
+                $imageName = uniqid() . '_' . $slug . '.' . 'webp';
+
+                //-- iamge resize and webp format convert
+                list($width, $height) = getimagesize($image);
+                $new_width = 350;
+                $new_height = 350;
+                $image_p = imagecreatetruecolor($new_width, $new_height);
+                $imageformat = imagecreatefromstring(file_get_contents($image));
+                if ($imageformat === false) {
+                    return response()->json(['error' => 'Invalid image file'], 400);
+                }
+                imagecopyresampled($image_p, $imageformat, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
                 $path = 'admin/category/' . $imageName;
-                $image->move(public_path('admin/category'), $imageName);
+                $destinationPath = storage_path('app/public/' . $path);
+                if (!is_dir(dirname($destinationPath))) {
+                    mkdir(dirname($destinationPath), 0755, true);
+                }
+                imagewebp($image_p, $destinationPath);
+                imagedestroy($imageformat);
+                imagedestroy($image_p);
             }
             $category  = new Category();
             $category->name = $request->name;

@@ -21,7 +21,7 @@ class CategoryResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'short_desc' => Str::limit($this->description, 30),
-            'image' => asset($this->image),
+            'image' => asset('storage/'. $this->image),
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
             'created_at' => $this->created_at->format('Y-m-d'),

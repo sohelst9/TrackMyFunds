@@ -32,24 +32,19 @@
 <script setup>
 import { computed } from 'vue';
 import { useAuth } from '../../../auth/auth';
-import { onMounted } from 'vue';
 
 
-const { logout, stateAuth, checkAuth } = useAuth() // {} this is destructuring
+const { logout, stateAuth } = useAuth() // {} this is destructuring
 
 //--current user info
 const user = computed(() => stateAuth.user);
 
+console.log(user.value)
+
 //--profile url make
 const profileImage = computed(() => {
-    return user.value?.profile ? `/${user.value.profile}` : '/profile/default_profile.png';
-})
-
-//-- check auth function call 
-// onMounted(async () => {
-//     await checkAuth();
-//     // console.log(user.value)
-// });
+    return `/storage/${user.value.profile}`;
+});
 
 
 //--cal logout function
