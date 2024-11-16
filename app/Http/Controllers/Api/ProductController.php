@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -78,9 +79,26 @@ class ProductController extends Controller
             $path = null;
             if ($request->hasFile('product_image')) {
                 $product_image = $request->file('product_image');
-                $newImageName = uniqid() . '_' . $slug . '.' . $product_image->getClientOriginalExtension();
+                $newImageName = uniqid() . '_' . $slug . '.' . 'webp';
+
+                //-- iamge resize and webp format convert
+                list($width, $height) = getimagesize($product_image);
+                $new_width = 600;
+                $new_height = 600;
+                $image_p = imagecreatetruecolor($new_width, $new_height);
+                $imageformat = imagecreatefromstring(file_get_contents($product_image));
+                if ($imageformat === false) {
+                    return response()->json(['error' => 'Invalid image file'], 400);
+                }
+                imagecopyresampled($image_p, $imageformat, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
                 $path = 'admin/product/' . $newImageName;
-                $product_image->move(public_path('admin/product'), $newImageName);
+                $destinationPath = storage_path('app/public/' . $path);
+                if (!is_dir(dirname($destinationPath))) {
+                    mkdir(dirname($destinationPath), 0755, true);
+                }
+                imagewebp($image_p, $destinationPath);
+                imagedestroy($imageformat);
+                imagedestroy($image_p);
             }
 
             // Create product
@@ -175,13 +193,31 @@ class ProductController extends Controller
                 if ($request->hasFile('product_image')) {
                     //--old image delete
                     $old_image = $product->product_image;
-                    if ($old_image && file_exists(public_path($old_image))) {
-                        File::delete(public_path($old_image));
+                    if ($old_image && Storage::disk('public')->exists($old_image)) {
+                        Storage::disk('public')->delete($old_image);
                     }
                     $product_image = $request->file('product_image');
-                    $newImageName = uniqid() . 'update_' . $slug . '.' . $product_image->getClientOriginalExtension();
+                    $newImageName = uniqid() . 'update_' . $slug . '.' . 'webp';
+
+
+                    //-- iamge resize and webp format convert
+                    list($width, $height) = getimagesize($product_image);
+                    $new_width = 350;
+                    $new_height = 350;
+                    $image_p = imagecreatetruecolor($new_width, $new_height);
+                    $imageformat = imagecreatefromstring(file_get_contents($product_image));
+                    if ($imageformat === false) {
+                        return response()->json(['error' => 'Invalid image file'], 400);
+                    }
+                    imagecopyresampled($image_p, $imageformat, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
                     $path = 'admin/product/' . $newImageName;
-                    $product_image->move(public_path('admin/product'), $newImageName);
+                    $destinationPath = storage_path('app/public/' . $path);
+                    if (!is_dir(dirname($destinationPath))) {
+                        mkdir(dirname($destinationPath), 0755, true);
+                    }
+                    imagewebp($image_p, $destinationPath);
+                    imagedestroy($imageformat);
+                    imagedestroy($image_p);
                     $product->product_image = $path;
                 }
 
@@ -212,8 +248,8 @@ class ProductController extends Controller
         $product = Product::where('slug', $slug)->first();
         if ($product) {
             $old_image = $product->product_image;
-            if ($old_image && file_exists(public_path($old_image))) {
-                File::delete(public_path(($old_image)));
+            if ($old_image && Storage::disk('public')->exists($old_image)) {
+                Storage::disk('public')->delete($old_image);
             }
             $product->delete();
             return response()->json([

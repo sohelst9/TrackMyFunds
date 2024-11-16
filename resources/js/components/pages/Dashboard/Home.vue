@@ -92,7 +92,7 @@ const dataNotFound = ref(null);
 
 //--ProductImage
 const ProductImage = (Image) => {
-    return `/${Image}`
+    return `storage/${Image}`
 }
 
 const getProducts = async () => {

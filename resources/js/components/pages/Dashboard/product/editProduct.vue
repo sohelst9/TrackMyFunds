@@ -181,7 +181,7 @@ const getProductData = async () => {
     } else {
         ProductData.value = response.data.data;
         ProductData.value.isFeatured = response.data.data.isFeatured === 1; //--- integer to Boolean 
-        PreviewImage.value = `/${response.data.data.product_image}`;
+        PreviewImage.value = response.data.data.product_image;
         // console.log(response.data.data)
     }
 }

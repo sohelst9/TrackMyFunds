@@ -27,7 +27,7 @@ class ProductResource extends JsonResource
             'size' => $this->size,
             'weight' => $this->weight,
             'packageType' => $this->packageType,
-            'product_image' => $this->product_image,
+            'product_image' => asset('storage/' .  $this->product_image),
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
             'isFeatured' => $this->isFeatured,

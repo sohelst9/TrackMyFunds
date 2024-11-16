@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -125,14 +126,30 @@ class Categorycontroller extends Controller
                 $path = null;
                 if ($request->hasFile('image')) {
                     //--old image delete
-                    $old_image = $category->image;
-                    if ($old_image && file_exists(public_path($old_image))) {
-                        File::delete(public_path($old_image));
+                    $oldImage = $category->image;
+                    if ($oldImage && Storage::disk('public')->exists($oldImage)) {
+                        Storage::disk('public')->delete($oldImage);
                     }
                     $cate_image = $request->file('image');
-                    $newImageName = uniqid() . 'update_' . $slug . '.' . $cate_image->getClientOriginalExtension();
+                    $newImageName = uniqid() . 'update_' . $slug . '.' . 'webp';
+                    //-- iamge resize and webp format convert
+                    list($width, $height) = getimagesize($cate_image);
+                    $new_width = 350;
+                    $new_height = 350;
+                    $image_p = imagecreatetruecolor($new_width, $new_height);
+                    $imageformat = imagecreatefromstring(file_get_contents($cate_image));
+                    if ($imageformat === false) {
+                        return response()->json(['error' => 'Invalid image file'], 400);
+                    }
+                    imagecopyresampled($image_p, $imageformat, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
                     $path = 'admin/category/' . $newImageName;
-                    $cate_image->move(public_path('admin/category'), $newImageName);
+                    $destinationPath = storage_path('app/public/' . $path);
+                    if (!is_dir(dirname($destinationPath))) {
+                        mkdir(dirname($destinationPath), 0755, true);
+                    }
+                    imagewebp($image_p, $destinationPath);
+                    imagedestroy($imageformat);
+                    imagedestroy($image_p);
                     $category->image = $path;
                 }
 
@@ -162,8 +179,8 @@ class Categorycontroller extends Controller
         $category = Category::where('slug', $slug)->first();
         if ($category) {
             $old_image = $category->image;
-            if ($old_image && file_exists(public_path($old_image))) {
-                File::delete(public_path($old_image));
+            if ($old_image && Storage::disk('public')->exists($old_image)) {
+                Storage::disk('public')->delete($old_image);
             }
             $category->delete();
             return response()->json([

@@ -33,7 +33,7 @@
                      <td>{{ (meta.current_page - 1) * meta.per_page + index + 1 }}</td>
                      <td>{{ product.name }}</td>
                      <td>
-                        <img :src="ImagePath(product.product_image)" alt="" width="100" class="rounded-custom">
+                        <img :src="product.product_image" alt="" width="100" class="rounded-custom">
                      </td>
                      <td>
                         <a class="btn btn-sm btn-primary">{{ product.category_name }}</a>
@@ -82,11 +82,6 @@ const links = ref(null);
 const search = ref('');
 //-- paginate code end--
 
-// Function to generate the image path from a relative image name
-const ImagePath = (image) => {
-   // Concatenate the image path with the given image name to form the complete path
-   return `/${image}`;
-}
 
 
 //--- add progress bar loading 
